@@ -3,7 +3,7 @@ package com.example.testmobapp.data.di
 import com.example.testmobapp.domain.repository.TaskRepository
 import com.example.testmobapp.data.repository.TaskRepositoryImpl
 import com.example.testmobapp.domain.interactor.TaskInteractor
-import com.example.testmobapp.presenter.viewmodel.TableViewModel
+import com.example.testmobapp.presentation.viewmodel.TableViewModel
 import com.example.testmobapp.data.room.TaskDatabase
 import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModel

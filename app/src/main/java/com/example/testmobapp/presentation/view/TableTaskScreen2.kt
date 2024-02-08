@@ -1,4 +1,4 @@
-package com.example.testmobapp.presenter.view
+package com.example.testmobapp.presentation.view
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
@@ -33,7 +33,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.testmobapp.data.model.TableTag
 import com.example.testmobapp.data.model.TaskDomain
-import com.example.testmobapp.presenter.viewmodel.TableViewModel
+import com.example.testmobapp.presentation.result.CreateTaskDialog
+import com.example.testmobapp.presentation.result.OpenTaskDialog
+import com.example.testmobapp.presentation.result.TableTopBarView
+import com.example.testmobapp.presentation.viewmodel.TableViewModel
 import com.example.testmobapp.ui.theme.PurpleGrey40
 import org.koin.androidx.compose.koinViewModel
 

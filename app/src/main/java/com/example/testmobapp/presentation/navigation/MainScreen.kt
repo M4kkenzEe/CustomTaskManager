@@ -1,15 +1,14 @@
-package com.example.testmobapp.presenter.navigation
+package com.example.testmobapp.presentation.navigation
 
 import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.example.testmobapp.presenter.view.TableTaskScreen
-import com.example.testmobapp.presenter.view.TimerView
+import com.example.testmobapp.presentation.result.TableTaskScreen
+import com.example.testmobapp.presentation.result.TimerView
 
 @Composable
 fun MainScreen() {
-
     val navController = rememberNavController()
 
     NavHost(navController = navController, startDestination = NavPoints.TableScreen.route) {

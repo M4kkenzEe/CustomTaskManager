@@ -1,4 +1,4 @@
-package com.example.testmobapp.presenter.view
+package com.example.testmobapp.presentation.view
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.border
@@ -23,7 +23,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.testmobapp.data.model.Album
-import com.example.testmobapp.presenter.viewmodel.MainViewModel
+import com.example.testmobapp.presentation.viewmodel.MainViewModel
 
 @Composable
 fun AlbumListView() {

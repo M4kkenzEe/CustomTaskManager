@@ -3,7 +3,6 @@ package com.example.testmobapp.data.room.entities
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import java.util.UUID
 
 @Entity(tableName = "task_table")
 data class TaskEntity(
@@ -11,4 +10,5 @@ data class TaskEntity(
     @ColumnInfo var title: String?,
     @ColumnInfo var description: String?,
     @ColumnInfo var tableTag: String?,
+    @ColumnInfo var createdAt: String
 )

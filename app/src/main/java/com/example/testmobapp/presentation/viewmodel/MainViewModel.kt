@@ -1,8 +1,6 @@
-package com.example.testmobapp.presenter.viewmodel
+package com.example.testmobapp.presentation.viewmodel
 
 import android.annotation.SuppressLint
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

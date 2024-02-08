@@ -1,4 +1,4 @@
-package com.example.testmobapp.presenter.viewmodel
+package com.example.testmobapp.presentation.viewmodel
 
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel

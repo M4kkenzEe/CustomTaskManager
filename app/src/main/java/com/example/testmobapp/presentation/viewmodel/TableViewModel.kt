@@ -1,4 +1,4 @@
-package com.example.testmobapp.presenter.viewmodel
+package com.example.testmobapp.presentation.viewmodel
 
 import android.util.Log
 import androidx.compose.runtime.mutableStateOf
@@ -9,8 +9,6 @@ import com.example.testmobapp.data.model.TableTag
 import com.example.testmobapp.data.model.TaskDomain
 import com.example.testmobapp.domain.interactor.TaskInteractor
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.catch
@@ -25,8 +23,6 @@ class TableViewModel(private val taskInteractor: TaskInteractor) : ViewModel() {
 
     private val _viewState: MutableStateFlow<List<TaskDomain>?> = MutableStateFlow(null)
     val viewState: StateFlow<List<TaskDomain>?> get() = _viewState
-
-    var jobState = mutableStateOf<Job?>(null)
 
     fun getAllTasks() {
         viewModelScope.launch {
@@ -49,18 +45,19 @@ class TableViewModel(private val taskInteractor: TaskInteractor) : ViewModel() {
     fun saveEditedTask(
         title: String,
         desc: String,
-        tag: TableTag = currentTaskState.value?.tableTag!!
+        tag: TableTag = currentTaskState.value?.tableTag!!,
     ) {
         val resultTask =
             TaskDomain(
                 id = currentTaskState.value?.id!!,
                 title = title,
                 description = desc,
-                tableTag = tag
+                tableTag = tag,
+                createdAt = currentTaskState.value?.createdAt!!
             )
         viewModelScope.launch {
             try {
-                taskInteractor.insertTask(resultTask)
+                taskInteractor.editTask(resultTask)
             } catch (e: Exception) {
                 Log.d("DB", "Error! (saveEditedTask)\n${e.message}\n${e.localizedMessage}")
             }
@@ -70,7 +67,6 @@ class TableViewModel(private val taskInteractor: TaskInteractor) : ViewModel() {
     }
 
     fun editTagTask(taskDomain: TaskDomain) {
-
         val resultTask = TaskDomain(
             id = taskDomain.id,
             title = taskDomain.title,
@@ -79,7 +75,8 @@ class TableViewModel(private val taskInteractor: TaskInteractor) : ViewModel() {
                 TableTag.NOT_STARTED -> TableTag.IN_PROGRESS
                 TableTag.IN_PROGRESS -> TableTag.NOT_STARTED
                 else -> TableTag.NOT_STARTED
-            }
+            },
+            createdAt = taskDomain.createdAt
         )
 
         viewModelScope.launch(Dispatchers.IO) {

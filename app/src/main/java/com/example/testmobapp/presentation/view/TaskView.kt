@@ -1,4 +1,4 @@
-package com.example.testmobapp.presenter.view
+package com.example.testmobapp.presentation.view
 
 import androidx.compose.runtime.Composable
 

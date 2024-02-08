@@ -1,10 +1,8 @@
-package com.example.testmobapp.presenter.view
+package com.example.testmobapp.presentation.view
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -19,7 +17,10 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.*
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -31,8 +32,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.testmobapp.data.model.TableTag
 import com.example.testmobapp.data.model.TaskDomain
-import com.example.testmobapp.presenter.viewmodel.TableViewModel
+import com.example.testmobapp.presentation.viewmodel.TableViewModel
 import org.koin.androidx.compose.koinViewModel
+import java.time.LocalDate
 
 @Composable
 fun TableScreen2(vm: TableViewModel = koinViewModel()) {
@@ -60,19 +62,7 @@ fun TableScreen2(vm: TableViewModel = koinViewModel()) {
             item {
                 TaskItem(
                     taskDomain = task,
-                    onClick = {
-                        vm.currentTaskState.value = task
-//                        task.tableTag =
-//                            if (task.tableTag == TableTag.NOT_STARTED) TableTag.IN_PROGRESS
-//                            else TableTag.NOT_STARTED
-//                        vm.saveEditedTask(
-//                            title = task.title,
-//                            desc = task.description,
-//                            tag = if (task.tableTag == TableTag.NOT_STARTED) TableTag.IN_PROGRESS
-//                            else TableTag.NOT_STARTED
-//                        )
-//                        vm.deleteTask()
-                    },
+                    onClick = { vm.currentTaskState.value = task },
                     onLongClick = {
                         vm.currentTaskState.value = task
                         taskDialogState = true
@@ -91,6 +81,7 @@ fun TableScreen2(vm: TableViewModel = koinViewModel()) {
                             id = 0,
                             title = "titleState $r",
                             description = "descState $r",
+                            createdAt = LocalDate.now()
                         )
                     )
                 },
@@ -132,7 +123,11 @@ fun TaskItem(
             onClick = {
                 tableTagState = if (tableTagState == TableTag.NOT_STARTED) TableTag.IN_PROGRESS
                 else TableTag.NOT_STARTED
-                viewModel.saveEditedTask(taskDomain.title, taskDomain.description, tableTagState)
+                viewModel.saveEditedTask(
+                    taskDomain.title,
+                    taskDomain.description,
+                    tableTagState
+                )
 //                onTagSave(
 //                    TaskDomain(
 //                        taskDomain.id,

@@ -1,4 +1,4 @@
-package com.example.testmobapp.presenter.view
+package com.example.testmobapp.presentation.result
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.BorderStroke
@@ -25,7 +25,11 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.*
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -39,9 +43,10 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import com.example.testmobapp.data.model.TableTag
 import com.example.testmobapp.data.model.TaskDomain
-import com.example.testmobapp.presenter.viewmodel.TableViewModel
+import com.example.testmobapp.presentation.viewmodel.TableViewModel
 import com.example.testmobapp.ui.theme.PurpleGrey40
 import org.koin.androidx.compose.koinViewModel
+import java.time.LocalDate
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter", "UnrememberedMutableState")
 @Composable
@@ -143,7 +148,7 @@ fun TaskListView(
             verticalArrangement = Arrangement.spacedBy(18.dp)
         ) {
 
-            items(taskList, key = { task -> task.hashCode() }) { task ->
+            items(taskList, key = { task -> task.id }) { task ->
                 TaskItemScreen(
                     taskTitle = task.title,
                     taskDesc = task.description,
@@ -308,6 +313,7 @@ fun CreateTaskDialog(
                                 id = 0,
                                 title = titleState,
                                 description = descState,
+                                createdAt = LocalDate.now()
                             )
                         )
                         onDismiss()
@@ -420,7 +426,6 @@ fun OpenTaskDialog(
                             fontWeight = FontWeight.Bold
                         )
                     }
-
                 }
             }
 
@@ -457,7 +462,7 @@ fun OpenTaskDialog(
                             tag = TableTag.IN_PROGRESS
                         )
                         onDismiss()
-//                        popUpScreen()
+                        popUpScreen()
                     },
                     modifier = Modifier.clip(RoundedCornerShape(20)),
                     colors = ButtonDefaults.buttonColors(containerColor = Color.Blue),
@@ -468,6 +473,10 @@ fun OpenTaskDialog(
                         fontWeight = FontWeight.Bold
                     )
                 }
+            }
+
+            item {
+                Text(text = "${vm.currentTaskState.value?.createdAt}")
             }
         }
     }

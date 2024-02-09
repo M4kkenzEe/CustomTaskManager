@@ -82,16 +82,21 @@ fun TableTaskScreen(
     ) {
         TableTopBarView(addTaskCLick = { createTaskState = true })
 
+        CalendarRow()
+
         val tasksByCategory by vm.viewState.collectAsState()
 
         val notStartedTasks =
             tasksByCategory?.groupBy { it.tableTag }?.get(TableTag.NOT_STARTED)
+                ?.filter { it.createdAt == vm.todayIsState.value }
                 ?: emptyList()
         val inProgressTasks =
             tasksByCategory?.groupBy { it.tableTag }?.get(TableTag.IN_PROGRESS)
+                ?.filter { it.createdAt == vm.todayIsState.value }
                 ?: emptyList()
         val finishedTasks =
             tasksByCategory?.groupBy { it.tableTag }?.get(TableTag.FINISHED)
+                ?.filter { it.createdAt == vm.todayIsState.value }
                 ?: emptyList()
 
         Row(
@@ -272,7 +277,6 @@ fun TableTopBarView(addTaskCLick: () -> Unit = {}) {
 @Composable
 fun CreateTaskDialog(
     onDismiss: () -> Unit = {},
-    pressAddTask: () -> Unit = {},
     tableViewModel: TableViewModel = koinViewModel()
 ) {
     var titleState by remember {
@@ -364,10 +368,6 @@ fun OpenTaskDialog(
 
     var descState by remember {
         mutableStateOf(vm.currentTaskState.value?.description)
-    }
-
-    var tagState by remember {
-        mutableStateOf(vm.currentTaskState.value?.tableTag)
     }
 
     Dialog(onDismissRequest = { onDismiss() }) {

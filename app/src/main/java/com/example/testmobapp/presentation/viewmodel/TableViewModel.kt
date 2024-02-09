@@ -14,17 +14,18 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.launch
+import java.time.LocalDate
 
 class TableViewModel(private val taskInteractor: TaskInteractor) : ViewModel() {
 
     val currentTaskState = mutableStateOf<TaskDomain?>(null)
 
-    val tasksListState = mutableStateOf<List<TaskDomain>?>(null)
-
     private val _viewState: MutableStateFlow<List<TaskDomain>?> = MutableStateFlow(null)
     val viewState: StateFlow<List<TaskDomain>?> get() = _viewState
 
-    fun getAllTasks() {
+    val todayIsState = mutableStateOf(LocalDate.now())
+
+    private fun getAllTasks() {
         viewModelScope.launch {
             taskInteractor.getAllTasks()
                 .flowOn(Dispatchers.IO)
@@ -36,7 +37,6 @@ class TableViewModel(private val taskInteractor: TaskInteractor) : ViewModel() {
                 }
                 .collect { it ->
                     Log.d("DB", "Success! (getAllTasks)\n$it")
-//                    tasksListState.value = it
                     _viewState.value = it.map { mapEntityToDomain(it) }
                 }
         }
@@ -104,18 +104,6 @@ class TableViewModel(private val taskInteractor: TaskInteractor) : ViewModel() {
         viewModelScope.launch {
             try {
                 taskInteractor.deleteTask(currentTaskState.value!!)
-            } catch (e: Exception) {
-                Log.d("DB", "Error! (deleteTask)\n${e.message}\n${e.localizedMessage}")
-            }
-            currentTaskState.value = null
-            getAllTasks()
-        }
-    }
-
-    fun deleteTask1(taskDomain: TaskDomain) {
-        viewModelScope.launch {
-            try {
-                taskInteractor.deleteTask(taskDomain)
             } catch (e: Exception) {
                 Log.d("DB", "Error! (deleteTask)\n${e.message}\n${e.localizedMessage}")
             }

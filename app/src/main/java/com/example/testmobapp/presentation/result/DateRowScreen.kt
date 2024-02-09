@@ -26,17 +26,22 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.zIndex
+import com.example.testmobapp.presentation.viewmodel.TableViewModel
+import org.koin.androidx.compose.koinViewModel
 import java.time.LocalDate
 
 @Composable
-fun CalendarDay(number: String) {
+fun CalendarDay(
+    number: String,
+    onClick: () -> Unit = {},
+) {
     Box(
         modifier = Modifier
             .clip(CircleShape)
             .size(35.dp)
             .background(Color.White)
             .zIndex(1f)
-            .clickable { },
+            .clickable { onClick() },
         contentAlignment = Alignment.Center
     ) {
         Text(
@@ -52,6 +57,7 @@ fun CalendarDay(number: String) {
 
 @Composable
 fun WeekScreen(currentWeekStartDate: LocalDate) {
+    val vm: TableViewModel = koinViewModel()
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -61,7 +67,9 @@ fun WeekScreen(currentWeekStartDate: LocalDate) {
     ) {
         for (day in 0..6) {
             val currentDay = currentWeekStartDate.plusDays(day.toLong())
-            CalendarDay("${currentDay.dayOfMonth}")
+            CalendarDay(
+                "${currentDay.dayOfMonth}",
+                onClick = { vm.todayIsState.value = currentDay })
             Log.d("CalendarTest", "${currentDay.month} - ${currentWeekStartDate.month}")
         }
     }
@@ -69,18 +77,17 @@ fun WeekScreen(currentWeekStartDate: LocalDate) {
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun CalendarRow() {
+fun CalendarRow(modifier: Modifier = Modifier) {
     val pageState = rememberPagerState(
         pageCount = { Int.MAX_VALUE },
         initialPage = Int.MAX_VALUE / 2
     )
     HorizontalPager(
         state = pageState,
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .wrapContentHeight()
             .padding(vertical = 12.dp)
-            .background(Color.Cyan)
     ) {
         val currentWeekStartDate = calculateWeekStartDate(pageState.currentPage)
         WeekScreen(currentWeekStartDate = currentWeekStartDate)

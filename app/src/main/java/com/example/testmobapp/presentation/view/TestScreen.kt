@@ -62,7 +62,7 @@ fun TestScreen(vm: TableViewModel = koinViewModel()) {
                     .padding(20.dp)
                     .combinedClickable(
                         onClick = { vm.editTagTask(task) },
-                        onLongClick = { vm.deleteTask1(task) }),
+                        onLongClick = {  }),
                 contentAlignment = Alignment.Center
             ) {
                 Column(

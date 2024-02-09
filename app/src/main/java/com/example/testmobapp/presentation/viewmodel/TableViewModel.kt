@@ -66,6 +66,20 @@ class TableViewModel(private val taskInteractor: TaskInteractor) : ViewModel() {
         }
     }
 
+    fun finishTask() {
+        val task = TaskDomain(
+            id = currentTaskState.value?.id!!,
+            title = currentTaskState.value?.title!!,
+            description = currentTaskState.value?.description!!,
+            tableTag = TableTag.FINISHED,
+            createdAt = currentTaskState.value?.createdAt!!
+        )
+        viewModelScope.launch {
+            taskInteractor.editTask(task)
+        }
+        getAllTasks()
+    }
+
     fun editTagTask(taskDomain: TaskDomain) {
         val resultTask = TaskDomain(
             id = taskDomain.id,

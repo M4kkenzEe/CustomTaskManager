@@ -1,4 +1,4 @@
-package com.example.testmobapp.presentation.view
+package com.example.testmobapp.presentation.testview
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.border

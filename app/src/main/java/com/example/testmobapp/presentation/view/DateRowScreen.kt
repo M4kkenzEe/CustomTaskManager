@@ -1,4 +1,4 @@
-package com.example.testmobapp.presentation.result
+package com.example.testmobapp.presentation.view
 
 import android.util.Log
 import androidx.compose.foundation.ExperimentalFoundationApi
@@ -33,13 +33,17 @@ import java.time.LocalDate
 @Composable
 fun CalendarDay(
     number: String,
+    isClicked: Boolean,
     onClick: () -> Unit = {},
 ) {
+    val bgColor = if (isClicked) Color.White else Color.Black
+    val textColor = if (isClicked) Color.Black else Color.White
+
     Box(
         modifier = Modifier
             .clip(CircleShape)
             .size(35.dp)
-            .background(Color.White)
+            .background(bgColor)
             .zIndex(1f)
             .clickable { onClick() },
         contentAlignment = Alignment.Center
@@ -47,7 +51,7 @@ fun CalendarDay(
         Text(
             text = number,
             fontSize = 16.sp,
-            color = Color.Black,
+            color = textColor,
             textAlign = TextAlign.Center,
             fontWeight = FontWeight.Bold
         )
@@ -68,8 +72,10 @@ fun WeekScreen(currentWeekStartDate: LocalDate) {
         for (day in 0..6) {
             val currentDay = currentWeekStartDate.plusDays(day.toLong())
             CalendarDay(
-                "${currentDay.dayOfMonth}",
-                onClick = { vm.todayIsState.value = currentDay })
+                number = "${currentDay.dayOfMonth}",
+                isClicked = currentDay == vm.todayIsState.value,
+                onClick = { vm.todayIsState.value = currentDay }
+            )
             Log.d("CalendarTest", "${currentDay.month} - ${currentWeekStartDate.month}")
         }
     }
@@ -103,5 +109,4 @@ fun calculateWeekStartDate(currentPage: Int): LocalDate {
 @Preview
 fun TestScreen2Prev() {
     CalendarRow()
-
 }

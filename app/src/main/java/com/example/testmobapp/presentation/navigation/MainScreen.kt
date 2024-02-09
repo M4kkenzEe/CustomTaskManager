@@ -4,8 +4,8 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.example.testmobapp.presentation.result.TableTaskScreen
-import com.example.testmobapp.presentation.result.TimerView
+import com.example.testmobapp.presentation.view.TableTaskScreen
+import com.example.testmobapp.presentation.view.TimerView
 
 @Composable
 fun MainScreen() {

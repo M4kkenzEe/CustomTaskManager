@@ -1,4 +1,4 @@
-package com.example.testmobapp.presentation.result
+package com.example.testmobapp.presentation.view
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.BorderStroke
@@ -256,7 +256,7 @@ fun TableTopBarView(addTaskCLick: () -> Unit = {}) {
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
         Text(
-            text = "Выбрать",
+            text = "Today is ${LocalDate.now().month} ${LocalDate.now().dayOfMonth}th",
             fontSize = 12.sp,
             color = PurpleGrey40,
             fontWeight = FontWeight.Bold,
@@ -469,6 +469,23 @@ fun OpenTaskDialog(
                 ) {
                     Text(
                         text = "Начать работу",
+                        color = Color.White,
+                        fontWeight = FontWeight.Bold
+                    )
+                }
+            }
+
+            item {
+                Button(
+                    onClick = {
+                        vm.finishTask()
+                        onDismiss()
+                    },
+                    modifier = Modifier.clip(RoundedCornerShape(20)),
+                    colors = ButtonDefaults.buttonColors(containerColor = Color.Blue),
+                ) {
+                    Text(
+                        text = "Завершить",
                         color = Color.White,
                         fontWeight = FontWeight.Bold
                     )

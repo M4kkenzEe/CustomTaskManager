@@ -1,4 +1,4 @@
-package com.example.testmobapp.presentation.result
+package com.example.testmobapp.presentation.view
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable

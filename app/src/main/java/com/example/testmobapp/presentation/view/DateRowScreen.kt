@@ -16,7 +16,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.pager.HorizontalPager
-import androidx.compose.foundation.pager.rememberPagerState
+import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -102,19 +102,18 @@ fun WeekScreen(currentWeekStartDate: LocalDate) {
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun CalendarRow(modifier: Modifier = Modifier) {
-    val pageState = rememberPagerState(
-        pageCount = { Int.MAX_VALUE },
-        initialPage = Int.MAX_VALUE / 2
-    )
+fun CalendarRow(
+    modifier: Modifier = Modifier,
+    pagerState: PagerState
+) {
     HorizontalPager(
-        state = pageState,
+        state = pagerState,
         modifier = modifier
             .fillMaxWidth()
             .wrapContentHeight()
             .padding(vertical = 12.dp)
     ) {
-        val currentWeekStartDate = calculateWeekStartDate(pageState.currentPage)
+        val currentWeekStartDate = calculateWeekStartDate(pagerState.currentPage)
         Column(
             modifier = Modifier
                 .fillMaxWidth()
@@ -138,5 +137,5 @@ fun calculateWeekStartDate(currentPage: Int): LocalDate {
 @Composable
 @Preview
 fun TestScreen2Prev() {
-    CalendarRow()
+//    CalendarRow()
 }

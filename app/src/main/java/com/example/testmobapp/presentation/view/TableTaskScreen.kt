@@ -18,6 +18,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
@@ -30,6 +31,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -48,9 +50,11 @@ import com.example.testmobapp.data.model.TableTag
 import com.example.testmobapp.data.model.TaskDomain
 import com.example.testmobapp.presentation.viewmodel.TableViewModel
 import com.example.testmobapp.ui.theme.PurpleGrey40
+import kotlinx.coroutines.launch
 import org.koin.androidx.compose.koinViewModel
 import java.time.LocalDate
 
+@OptIn(ExperimentalFoundationApi::class)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter", "UnrememberedMutableState")
 @Composable
 fun TableTaskScreen(
@@ -78,14 +82,26 @@ fun TableTaskScreen(
         )
     }
 
+    val pagerState = rememberPagerState(
+        pageCount = { Int.MAX_VALUE },
+        initialPage = Int.MAX_VALUE / 2
+    )
+
+    val coroutineScope = rememberCoroutineScope()
+
     Column(
         modifier = Modifier
             .fillMaxSize()
             .background(PurpleGrey40),
     ) {
-        TableTopBarView(addTaskCLick = { createTaskState = true })
+        TableTopBarView(
+            addTaskCLick = { createTaskState = true },
+            currentDateClick = {
+                vm.todayIsState.value = LocalDate.now()
+                coroutineScope.launch{ pagerState.animateScrollToPage(Int.MAX_VALUE / 2) }
+            })
 
-        CalendarRow()
+        CalendarRow(pagerState = pagerState)
 
         val tasksByCategory by vm.viewState.collectAsState()
 
@@ -257,7 +273,10 @@ fun TaskItemScreen(
 }
 
 @Composable
-fun TableTopBarView(addTaskCLick: () -> Unit = {}) {
+fun TableTopBarView(
+    addTaskCLick: () -> Unit = {},
+    currentDateClick: () -> Unit = {}
+) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -272,7 +291,10 @@ fun TableTopBarView(addTaskCLick: () -> Unit = {}) {
             fontSize = 12.sp,
             color = PurpleGrey40,
             fontWeight = FontWeight.Bold,
-            modifier = Modifier.clickable { }
+            modifier = Modifier
+                .clip(CircleShape)
+                .padding(2.dp)
+                .clickable { currentDateClick() }
         )
 
         Text(

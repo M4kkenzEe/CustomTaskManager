@@ -18,6 +18,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -35,8 +36,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -152,7 +155,6 @@ fun TaskListView(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.spacedBy(18.dp)
         ) {
-
             items(taskList, key = { task -> task.id }) { task ->
                 TaskItemScreen(
                     taskTitle = task.title,
@@ -192,13 +194,21 @@ fun TaskItemScreen(
     taskCLick: () -> Unit = {},
     taskLongClick: () -> Unit = {}
 ) {
+
+    val cardColor = if (taskTag == TableTag.FINISHED) Color.Gray else Color.White
+//    val textColor = Color.White
+
+    val textStyle =
+        if (taskTag == TableTag.FINISHED) TextStyle(textDecoration = TextDecoration.LineThrough)
+        else TextStyle(textDecoration = TextDecoration.None)
+
     Box(
         modifier = Modifier
             .shadow(
                 elevation = 1.dp,
                 shape = RoundedCornerShape(20)
             )
-            .background(Color.White)
+            .background(cardColor)
             .fillMaxWidth()
             .combinedClickable(
                 enabled = true,
@@ -210,7 +220,6 @@ fun TaskItemScreen(
         Column(
             modifier = Modifier
                 .padding(16.dp)
-                .background(Color.White)
                 .fillMaxSize(),
         ) {
             Text(
@@ -220,7 +229,8 @@ fun TaskItemScreen(
                 fontWeight = FontWeight.Bold,
                 maxLines = 2,
                 modifier = Modifier.fillMaxWidth(),
-                textAlign = TextAlign.Start
+                textAlign = TextAlign.Start,
+                style = textStyle
             )
             Text(
                 text = taskDesc,
@@ -232,13 +242,15 @@ fun TaskItemScreen(
                     .fillMaxWidth()
                     .padding(top = 6.dp),
                 textAlign = TextAlign.Start,
+                style = textStyle
             )
             Text(
                 text = taskTag.toString(),
                 fontSize = 8.sp,
                 fontWeight = FontWeight.Bold,
                 modifier = Modifier.fillMaxWidth(),
-                textAlign = TextAlign.End
+                textAlign = TextAlign.End,
+                style = textStyle
             )
         }
     }
@@ -268,7 +280,11 @@ fun TableTopBarView(addTaskCLick: () -> Unit = {}) {
             fontSize = 20.sp,
             color = PurpleGrey40,
             fontWeight = FontWeight.Normal,
-            modifier = Modifier.clickable { addTaskCLick() }
+            modifier = Modifier
+                .padding(2.dp)
+                .clip(CircleShape)
+                .clickable { addTaskCLick() }
+
         )
     }
 }
@@ -280,7 +296,7 @@ fun CreateTaskDialog(
     tableViewModel: TableViewModel = koinViewModel()
 ) {
     var titleState by remember {
-        mutableStateOf("")
+        mutableStateOf("New task")
     }
 
     var descState by remember {
@@ -317,7 +333,7 @@ fun CreateTaskDialog(
                                 id = 0,
                                 title = titleState,
                                 description = descState,
-                                createdAt = LocalDate.now()
+                                createdAt = tableViewModel.todayIsState.value
                             )
                         )
                         onDismiss()

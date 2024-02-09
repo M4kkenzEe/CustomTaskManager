@@ -6,11 +6,15 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.CircleShape
@@ -33,28 +37,42 @@ import java.time.LocalDate
 @Composable
 fun CalendarDay(
     number: String,
+    dayOfWeek: String,
     isClicked: Boolean,
     onClick: () -> Unit = {},
 ) {
     val bgColor = if (isClicked) Color.White else Color.Black
     val textColor = if (isClicked) Color.Black else Color.White
 
-    Box(
-        modifier = Modifier
-            .clip(CircleShape)
-            .size(35.dp)
-            .background(bgColor)
-            .zIndex(1f)
-            .clickable { onClick() },
-        contentAlignment = Alignment.Center
+    Column(
+        modifier = Modifier.wrapContentSize(),
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
-            text = number,
-            fontSize = 16.sp,
-            color = textColor,
-            textAlign = TextAlign.Center,
-            fontWeight = FontWeight.Bold
+            text = dayOfWeek[0].toString() + dayOfWeek[1].toString() + dayOfWeek[2].toString(),
+            fontSize = 10.sp,
+            fontWeight = FontWeight.Bold,
+            color = Color.White
         )
+        Spacer(modifier = Modifier.height(6.dp))
+
+        Box(
+            modifier = Modifier
+                .clip(CircleShape)
+                .size(35.dp)
+                .background(bgColor)
+                .zIndex(1f)
+                .clickable { onClick() },
+            contentAlignment = Alignment.Center
+        ) {
+            Text(
+                text = number,
+                fontSize = 16.sp,
+                color = textColor,
+                textAlign = TextAlign.Center,
+                fontWeight = FontWeight.Bold
+            )
+        }
     }
 }
 
@@ -73,6 +91,7 @@ fun WeekScreen(currentWeekStartDate: LocalDate) {
             val currentDay = currentWeekStartDate.plusDays(day.toLong())
             CalendarDay(
                 number = "${currentDay.dayOfMonth}",
+                dayOfWeek = currentDay.dayOfWeek.toString(),
                 isClicked = currentDay == vm.todayIsState.value,
                 onClick = { vm.todayIsState.value = currentDay }
             )
@@ -96,7 +115,18 @@ fun CalendarRow(modifier: Modifier = Modifier) {
             .padding(vertical = 12.dp)
     ) {
         val currentWeekStartDate = calculateWeekStartDate(pageState.currentPage)
-        WeekScreen(currentWeekStartDate = currentWeekStartDate)
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .wrapContentHeight(),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Text(
+                text = currentWeekStartDate.month.toString(),
+                modifier = Modifier.padding(bottom = 6.dp)
+            )
+            WeekScreen(currentWeekStartDate = currentWeekStartDate)
+        }
     }
 }
 

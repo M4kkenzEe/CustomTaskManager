@@ -196,7 +196,7 @@ fun TaskListView(
             modifier = Modifier
                 .fillMaxWidth()
                 .background(Color.Black),
-            textAlign = TextAlign.Center
+            textAlign = TextAlign.Center,
         )
     }
 }

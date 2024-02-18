@@ -1,5 +1,3 @@
-import org.jetbrains.kotlin.kapt3.base.Kapt.kapt
-
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
@@ -102,4 +100,6 @@ dependencies {
 
     //Koin
     implementation("io.insert-koin:koin-androidx-compose:3.3.0")
+
+    implementation ("androidx.compose.ui:ui-text-google-fonts:1.6.1")
 }

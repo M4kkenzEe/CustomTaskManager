@@ -1,4 +1,4 @@
-package com.example.testmobapp.presentation.view
+package com.example.testmobapp.presentation.newview
 
 import android.util.Log
 import androidx.compose.foundation.ExperimentalFoundationApi
@@ -24,13 +24,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.compose.ui.zIndex
 import com.example.testmobapp.presentation.viewmodel.TableViewModel
 import org.koin.androidx.compose.koinViewModel
 import java.time.LocalDate
@@ -42,8 +42,8 @@ fun CalendarDay(
     isClicked: Boolean,
     onClick: () -> Unit = {},
 ) {
-    val bgColor = if (isClicked) Color.White else Color.Black
-    val textColor = if (isClicked) Color.Black else Color.White
+    val bgColor = if (!isClicked) Color.White else Color.Black
+    val textColor = if (!isClicked) Color.Black else Color.White
 
     Column(
         modifier = Modifier.wrapContentSize(),
@@ -53,16 +53,17 @@ fun CalendarDay(
             text = dayOfWeek[0].toString() + dayOfWeek[1].toString() + dayOfWeek[2].toString(),
             fontSize = 10.sp,
             fontWeight = FontWeight.Bold,
-            color = Color.White
+            color = Color.Black,
         )
         Spacer(modifier = Modifier.height(6.dp))
 
         Box(
             modifier = Modifier
+                .shadow(elevation = 4.dp, shape = CircleShape)
                 .clip(CircleShape)
                 .size(35.dp)
                 .background(bgColor)
-                .zIndex(1f)
+
                 .clickable { onClick() },
             contentAlignment = Alignment.Center
         ) {
@@ -111,8 +112,9 @@ fun CalendarRow(
         state = pagerState,
         modifier = modifier
             .fillMaxWidth()
+            .background(Color.White)
             .wrapContentHeight()
-            .padding(vertical = 12.dp)
+            .padding(vertical = 16.dp)
     ) {
         val currentWeekStartDate = calculateWeekStartDate(pagerState.currentPage)
         Column(
@@ -123,7 +125,10 @@ fun CalendarRow(
         ) {
             Text(
                 text = currentWeekStartDate.month.toString(),
-                modifier = Modifier.padding(bottom = 6.dp)
+                modifier = Modifier.padding(bottom = 16.dp),
+                fontSize = 14.sp,
+                lineHeight = 16.94.sp,
+                fontWeight = FontWeight.Bold,
             )
             WeekScreen(currentWeekStartDate = currentWeekStartDate)
         }

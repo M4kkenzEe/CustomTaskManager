@@ -50,9 +50,11 @@ fun TaskColumn(modifier: Modifier = Modifier, label: String = "Не начаты
                 .padding(top = 6.dp),
         )
 
-        LazyColumn(modifier = Modifier
-            .fillMaxSize()
-            .border(BorderStroke(1.dp, Color.Black))) {
+        LazyColumn(
+            modifier = Modifier
+                .fillMaxSize()
+                .border(BorderStroke(1.dp, Color.Black))
+        ) {
 
         }
 
@@ -63,7 +65,13 @@ fun TaskColumn(modifier: Modifier = Modifier, label: String = "Не начаты
 @Composable
 @Preview
 fun TableScreenPrev() {
-    Row(modifier = Modifier.fillMaxSize().padding(horizontal = 16.dp).padding(top = 42.dp, bottom = 36.dp), horizontalArrangement = Arrangement.spacedBy(12.dp)) {
+    Row(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(horizontal = 16.dp)
+            .padding(top = 42.dp, bottom = 36.dp),
+        horizontalArrangement = Arrangement.spacedBy(8.dp)
+    ) {
         TaskColumn(modifier = Modifier.weight(1f))
         TaskColumn(modifier = Modifier.weight(1f), label = "В работе")
         TaskColumn(modifier = Modifier.weight(1f), label = "Завершенные")

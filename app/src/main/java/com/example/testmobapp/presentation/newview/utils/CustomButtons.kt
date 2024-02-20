@@ -16,8 +16,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.SmallFloatingActionButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -72,36 +70,10 @@ fun DoneButton(
 }
 
 @Composable
-fun ManageButton(
-    modifier: Modifier = Modifier,
-    onClick: () -> Unit = {},
-    text: String = "Done!",
-    buttonColor: Color = Color.Black,
-    textColor: Color = Color.White,
-    icon: Int
-) {
-    IconButton(
-        onClick = { onClick() },
-        colors = IconButtonDefaults.iconButtonColors(
-            containerColor = buttonColor,
-            contentColor = textColor,
-        ),
-        modifier = modifier
-            .clip(RoundedCornerShape(10.dp))
-            .width(80.dp),
-    ) {
-        Row {
-            Icon(painter = painterResource(id = icon), contentDescription = null)
-            Text(text = text, fontSize = 10.sp, fontWeight = FontWeight.Normal)
-        }
-    }
-}
-
-@Composable
 fun ManageBox(
     modifier: Modifier = Modifier,
     onClick: () -> Unit = {},
-    text: String = "Done!",
+    text: String = "",
     buttonColor: Color = Color.Black,
     textColor: Color = Color.White,
     icon: Int
@@ -142,7 +114,7 @@ fun ManageBox(
 fun ButtonsPrev() {
     Column(verticalArrangement = Arrangement.spacedBy(10.dp), modifier = Modifier.padding(50.dp)) {
         AddFAB()
-        DoneButton()
+        DoneButton(text = "Done button")
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.spacedBy(4.dp)

@@ -1,5 +1,8 @@
 package com.example.testmobapp.presentation.newview.utils
 
+import androidx.compose.foundation.gestures.Orientation
+import androidx.compose.foundation.gestures.rememberScrollableState
+import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -10,6 +13,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -29,7 +33,7 @@ fun TaskTitleTF(
     value: String,
     onValueChange: (s: String) -> Unit = {},
     modifier: Modifier = Modifier,
-    textHint:String = "Название"
+    textHint: String = "Название"
 ) {
     OutlinedTextField(
         value = value,
@@ -39,7 +43,7 @@ fun TaskTitleTF(
             focusedBorderColor = Color.Transparent,
             unfocusedBorderColor = Color.Transparent,
             cursorColor = Color.Black,
-            textColor = Color.Black,
+            focusedTextColor = Color.Black,
         ),
         placeholder = {
             Text(
@@ -62,22 +66,37 @@ fun TaskTitleTF(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun DescriptionTF(
+fun TaskDescriptionTF(
     value: String,
     onValueChange: (s: String) -> Unit = {},
     modifier: Modifier = Modifier,
     textHint: String = "Описание"
 ) {
+
+    var offset by remember {
+        mutableFloatStateOf(0f)
+    }
+
     OutlinedTextField(
         value = value,
         onValueChange = onValueChange,
-        modifier = modifier.padding(4.dp),
+        modifier = modifier
+            .padding(4.dp)
+            .scrollable(
+                orientation = Orientation.Vertical,
+                state = rememberScrollableState { delta ->
+                    offset += delta
+                    delta
+                }
+            ),
+        maxLines = 40,
         colors = TextFieldDefaults.outlinedTextFieldColors(
             focusedBorderColor = Color.Black,
             unfocusedBorderColor = Color.Black,
             cursorColor = Color.Black,
-            textColor = Color.Black,
+            focusedTextColor = Color.Black,
         ),
+
         placeholder = {
             Text(
                 text = textHint,
@@ -116,7 +135,7 @@ fun TaskTitlePrev() {
             onValueChange = { tfState = it }
         )
 
-        DescriptionTF(
+        TaskDescriptionTF(
             value = tfState,
             onValueChange = { tfState = it }
         )

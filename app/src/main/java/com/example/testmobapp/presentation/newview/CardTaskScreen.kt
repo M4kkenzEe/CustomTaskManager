@@ -41,7 +41,9 @@ fun CardTaskScreen(
     modifier: Modifier = Modifier,
     taskTitle: String = "task title",
     taskDesc: String = "task desc",
-    taskStatus: TableTag = TableTag.NOT_STARTED
+    taskStatus: TableTag = TableTag.NOT_STARTED,
+    onClick: () -> Unit = {},
+    onLongClick: () -> Unit = {},
 ) {
     val cardColor = if (taskStatus == TableTag.FINISHED) GrayE3 else Color.White
     val textStyle =
@@ -56,8 +58,8 @@ fun CardTaskScreen(
             .fillMaxWidth()
             .combinedClickable(
                 enabled = true,
-                onClick = { },
-                onLongClick = { }
+                onClick = { onClick() },
+                onLongClick = { onLongClick() }
             ),
         contentAlignment = Alignment.Center
     ) {
@@ -95,7 +97,7 @@ fun CardTaskScreen(
             ) {
                 Row {
                     Image(
-                        painter = painterResource(id = R.drawable.ic_sandtimer),
+                        painter = painterResource(id = R.drawable.ic_sandtimer_black),
                         contentDescription = null
                     )
                     Text(

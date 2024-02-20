@@ -48,6 +48,7 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import com.example.testmobapp.data.model.TableTag
 import com.example.testmobapp.data.model.TaskDomain
+import com.example.testmobapp.presentation.newview.CalendarRow
 import com.example.testmobapp.presentation.viewmodel.TableViewModel
 import com.example.testmobapp.ui.theme.PurpleGrey40
 import kotlinx.coroutines.launch
@@ -196,7 +197,7 @@ fun TaskListView(
             modifier = Modifier
                 .fillMaxWidth()
                 .background(Color.Black),
-            textAlign = TextAlign.Center
+            textAlign = TextAlign.Center,
         )
     }
 }

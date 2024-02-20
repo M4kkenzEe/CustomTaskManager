@@ -1,4 +1,4 @@
-package com.example.testmobapp.presentation.view
+package com.example.testmobapp.presentation.newview
 
 import android.util.Log
 import androidx.compose.foundation.ExperimentalFoundationApi
@@ -17,6 +17,7 @@ import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.PagerState
+import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -134,8 +135,14 @@ fun calculateWeekStartDate(currentPage: Int): LocalDate {
         .plusWeeks(currentPage.toLong() - Int.MAX_VALUE / 2)
 }
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 @Preview
 fun TestScreen2Prev() {
-//    CalendarRow()
+
+    val pagerState = rememberPagerState(
+        pageCount = { Int.MAX_VALUE },
+        initialPage = Int.MAX_VALUE / 2
+    )
+    CalendarRow(pagerState = pagerState)
 }

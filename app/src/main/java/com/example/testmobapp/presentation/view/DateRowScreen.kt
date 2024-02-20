@@ -1,4 +1,4 @@
-package com.example.testmobapp.presentation.newview
+package com.example.testmobapp.presentation.view
 
 import android.util.Log
 import androidx.compose.foundation.ExperimentalFoundationApi

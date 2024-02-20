@@ -5,7 +5,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.testmobapp.data.mapper.TaskMapper.mapEntityToDomain
-import com.example.testmobapp.data.model.TableTag
+import com.example.testmobapp.data.model.TaskStatus
 import com.example.testmobapp.data.model.TaskDomain
 import com.example.testmobapp.domain.interactor.TaskInteractor
 import kotlinx.coroutines.Dispatchers
@@ -45,7 +45,7 @@ class TableViewModel(private val taskInteractor: TaskInteractor) : ViewModel() {
     fun saveEditedTask(
         title: String,
         desc: String,
-        tag: TableTag = currentTaskState.value?.tableTag!!,
+        tag: TaskStatus = currentTaskState.value?.tableTag!!,
     ) {
         val resultTask =
             TaskDomain(
@@ -71,7 +71,7 @@ class TableViewModel(private val taskInteractor: TaskInteractor) : ViewModel() {
             id = currentTaskState.value?.id!!,
             title = currentTaskState.value?.title!!,
             description = currentTaskState.value?.description!!,
-            tableTag = TableTag.FINISHED,
+            tableTag = TaskStatus.FINISHED,
             createdAt = currentTaskState.value?.createdAt!!
         )
         viewModelScope.launch {
@@ -86,9 +86,9 @@ class TableViewModel(private val taskInteractor: TaskInteractor) : ViewModel() {
             title = taskDomain.title,
             description = taskDomain.description,
             tableTag = when (taskDomain.tableTag) {
-                TableTag.NOT_STARTED -> TableTag.IN_PROGRESS
-                TableTag.IN_PROGRESS -> TableTag.NOT_STARTED
-                else -> TableTag.NOT_STARTED
+                TaskStatus.NOT_STARTED -> TaskStatus.IN_PROGRESS
+                TaskStatus.IN_PROGRESS -> TaskStatus.NOT_STARTED
+                else -> TaskStatus.NOT_STARTED
             },
             createdAt = taskDomain.createdAt
         )
@@ -124,6 +124,14 @@ class TableViewModel(private val taskInteractor: TaskInteractor) : ViewModel() {
             currentTaskState.value = null
             getAllTasks()
         }
+    }
+
+    fun doSomething1(s:String) {
+
+    }
+
+    fun doSomething2() {
+
     }
 
     init {

@@ -46,7 +46,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
-import com.example.testmobapp.data.model.TableTag
+import com.example.testmobapp.data.model.TaskStatus
 import com.example.testmobapp.data.model.TaskDomain
 import com.example.testmobapp.presentation.viewmodel.TableViewModel
 import com.example.testmobapp.ui.theme.PurpleGrey40
@@ -106,15 +106,15 @@ fun TableTaskScreen(
         val tasksByCategory by vm.viewState.collectAsState()
 
         val notStartedTasks =
-            tasksByCategory?.groupBy { it.tableTag }?.get(TableTag.NOT_STARTED)
+            tasksByCategory?.groupBy { it.tableTag }?.get(TaskStatus.NOT_STARTED)
                 ?.filter { it.createdAt == vm.todayIsState.value }
                 ?: emptyList()
         val inProgressTasks =
-            tasksByCategory?.groupBy { it.tableTag }?.get(TableTag.IN_PROGRESS)
+            tasksByCategory?.groupBy { it.tableTag }?.get(TaskStatus.IN_PROGRESS)
                 ?.filter { it.createdAt == vm.todayIsState.value }
                 ?: emptyList()
         val finishedTasks =
-            tasksByCategory?.groupBy { it.tableTag }?.get(TableTag.FINISHED)
+            tasksByCategory?.groupBy { it.tableTag }?.get(TaskStatus.FINISHED)
                 ?.filter { it.createdAt == vm.todayIsState.value }
                 ?: emptyList()
 
@@ -206,16 +206,16 @@ fun TaskListView(
 fun TaskItemScreen(
     taskTitle: String = "Unknown title",
     taskDesc: String = "Desc",
-    taskTag: TableTag,
+    taskTag: TaskStatus,
     taskCLick: () -> Unit = {},
     taskLongClick: () -> Unit = {}
 ) {
 
-    val cardColor = if (taskTag == TableTag.FINISHED) Color.Gray else Color.White
+    val cardColor = if (taskTag == TaskStatus.FINISHED) Color.Gray else Color.White
 //    val textColor = Color.White
 
     val textStyle =
-        if (taskTag == TableTag.FINISHED) TextStyle(textDecoration = TextDecoration.LineThrough)
+        if (taskTag == TaskStatus.FINISHED) TextStyle(textDecoration = TextDecoration.LineThrough)
         else TextStyle(textDecoration = TextDecoration.None)
 
     Box(
@@ -497,7 +497,7 @@ fun OpenTaskDialog(
                         vm.saveEditedTask(
                             title = titleState.toString(),
                             desc = descState.toString(),
-                            tag = TableTag.IN_PROGRESS
+                            tag = TaskStatus.IN_PROGRESS
                         )
                         onDismiss()
                         popUpScreen()

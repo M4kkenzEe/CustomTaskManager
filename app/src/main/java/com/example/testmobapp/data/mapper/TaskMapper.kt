@@ -1,6 +1,6 @@
 package com.example.testmobapp.data.mapper
 
-import com.example.testmobapp.data.model.TableTag
+import com.example.testmobapp.data.model.TaskStatus
 import com.example.testmobapp.data.model.TaskDomain
 import com.example.testmobapp.data.room.entities.TaskEntity
 import java.time.LocalDate
@@ -12,7 +12,7 @@ object TaskMapper {
             id = taskEntity.id,
             title = taskEntity.title ?: "Unknown title",
             description = taskEntity.description ?: "U r lazy but",
-            tableTag = TableTag.valueOf(taskEntity.tableTag ?: TableTag.NOT_STARTED.toString()),
+            tableTag = TaskStatus.valueOf(taskEntity.tableTag ?: TaskStatus.NOT_STARTED.toString()),
             createdAt = LocalDate.parse(taskEntity.createdAt)
         )
     }

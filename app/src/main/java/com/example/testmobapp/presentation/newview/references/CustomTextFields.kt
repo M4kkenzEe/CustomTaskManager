@@ -1,4 +1,4 @@
-package com.example.testmobapp.presentation.newview.utils
+package com.example.testmobapp.presentation.newview.references
 
 import androidx.compose.foundation.gestures.Orientation
 import androidx.compose.foundation.gestures.rememberScrollableState

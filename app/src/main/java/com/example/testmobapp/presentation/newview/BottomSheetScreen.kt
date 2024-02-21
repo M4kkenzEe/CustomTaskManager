@@ -18,13 +18,15 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.testmobapp.R
-import com.example.testmobapp.presentation.newview.utils.DoneButton
-import com.example.testmobapp.presentation.newview.utils.ManageBox
-import com.example.testmobapp.presentation.newview.utils.TaskDescriptionTF
-import com.example.testmobapp.presentation.newview.utils.TaskTitleTF
+import com.example.testmobapp.presentation.newview.references.DoneButton
+import com.example.testmobapp.presentation.newview.references.ManageBox
+import com.example.testmobapp.presentation.newview.references.TaskDescriptionTF
+import com.example.testmobapp.presentation.newview.references.TaskTitleTF
+import com.example.testmobapp.presentation.utils.showToast
 import java.time.LocalDate
 
 
@@ -33,8 +35,9 @@ import java.time.LocalDate
 fun BottomSheetScreen(
     showBottomSheet: Boolean,
     cancelAdding: () -> Unit = {},
-    saveTask: (title: String, desc: String) -> Unit = { s1, s2 -> }
+    saveTask: (title: String, desc: String) -> Unit = { _, _ -> }
 ) {
+    val context = LocalContext.current
 
     var titleState by remember {
         mutableStateOf("")
@@ -45,32 +48,25 @@ fun BottomSheetScreen(
     }
 
     val sheetState = rememberModalBottomSheetState()
-//    val scope = rememberCoroutineScope()
 
-    LaunchedEffect(showBottomSheet) {
-        if (!showBottomSheet) {
+    //Clear text fields after each finished action
+    val clearFields = remember {
+        {
             titleState = ""
             descState = ""
         }
     }
 
-//    val doneAction = remember {
-//        {
-//            scope.launch(Dispatchers.IO) { sheetState.hide() }.invokeOnCompletion {
-//                if (!sheetState.isVisible) {
-//                    titleState = ""
-//                    descState = ""
-//                    saveTask(titleState, descState)
-//                }
-//            }
-//        }
-//    }
+    LaunchedEffect(showBottomSheet) {
+        if (!showBottomSheet) {
+            clearFields()
+        }
+    }
 
     if (showBottomSheet) {
         ModalBottomSheet(
             onDismissRequest = {
-                titleState = ""
-                descState = ""
+                clearFields()
                 cancelAdding()
             },
             sheetState = sheetState,
@@ -110,7 +106,11 @@ fun BottomSheetScreen(
                         .padding(top = 12.dp)
                 )
 
-                DoneButton(onClick = { saveTask(titleState, descState) })
+                DoneButton(onClick = {
+                    saveTask(titleState, descState)
+                    clearFields()
+                    showToast(context)
+                })
             }
         }
     }

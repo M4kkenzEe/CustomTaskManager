@@ -34,7 +34,7 @@ import androidx.compose.ui.unit.sp
 import com.example.testmobapp.R
 import com.example.testmobapp.data.model.TableTag
 import com.example.testmobapp.data.model.TaskDomain
-import com.example.testmobapp.presentation.newview.utils.AddFAB
+import com.example.testmobapp.presentation.newview.references.AddFAB
 import com.example.testmobapp.presentation.viewmodel.TableViewModel
 import org.koin.androidx.compose.koinViewModel
 

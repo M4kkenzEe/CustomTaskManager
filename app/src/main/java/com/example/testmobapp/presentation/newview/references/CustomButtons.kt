@@ -1,4 +1,4 @@
-package com.example.testmobapp.presentation.newview.utils
+package com.example.testmobapp.presentation.newview.references
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
@@ -86,7 +87,7 @@ fun ManageBox(
             .wrapContentWidth()
             .wrapContentHeight()
             .padding(horizontal = 8.dp, vertical = 6.dp)
-//            .size(200.dp)
+            .height(24.dp)
         ,
         contentAlignment = Alignment.Center
     ) {
@@ -106,7 +107,6 @@ fun ManageBox(
             }
         }
     }
-
 }
 
 @Composable

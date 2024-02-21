@@ -31,6 +31,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.testmobapp.presentation.utils.convertDayToRusSmall
+import com.example.testmobapp.presentation.utils.convertMonthToRus
 import com.example.testmobapp.presentation.viewmodel.TableViewModel
 import org.koin.androidx.compose.koinViewModel
 import java.time.LocalDate
@@ -141,49 +143,12 @@ fun calculateWeekStartDate(currentPage: Int, totalPages: Int): LocalDate {
         .plusWeeks(currentPage.toLong() - totalPages / 2)
 }
 
-//Converting days of month to Russian lang
-fun convertDayToRus(dayOfWeek: String) = when (dayOfWeek) {
-    "MONDAY" -> "Понедельник"
-    "TUESDAY" -> "Вторник"
-    "WEDNESDAY" -> "Среда"
-    "THURSDAY" -> "Четверг"
-    "FRIDAY" -> "Пятница"
-    "SATURDAY" -> "Суббота"
-    else -> "Воскресенье"
-}
-
-fun convertDayToRusSmall(dayOfWeek: String) = when (dayOfWeek) {
-    "MONDAY" -> "Пн"
-    "TUESDAY" -> "Вт"
-    "WEDNESDAY" -> "Ср"
-    "THURSDAY" -> "Чт"
-    "FRIDAY" -> "Пт"
-    "SATURDAY" -> "Сб"
-    else -> "Вс"
-}
-
-fun convertMonthToRus(month: String) = when (month) {
-    "JANUARY" -> "Январь"
-    "FEBRUARY" -> "Февраль"
-    "MARCH" -> "Март"
-    "APRIL" -> "Апрель"
-    "MAY" -> "Май"
-    "JUNE" -> "Июнь"
-    "JULY" -> "Июль"
-    "AUGUST" -> "Август"
-    "SEPTEMBER" -> "Сентябрь"
-    "OCTOBER" -> "Октябрь"
-    "NOVEMBER" -> "Ноябрь"
-    else -> "Декабрь"
-
-}
 
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 @Preview
 fun TestScreen2Prev() {
-
     val pagerState = rememberPagerState(
         pageCount = { Int.MAX_VALUE },
         initialPage = Int.MAX_VALUE / 2

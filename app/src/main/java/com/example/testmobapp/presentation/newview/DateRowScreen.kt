@@ -109,7 +109,8 @@ fun WeekScreen(currentWeekStartDate: LocalDate) {
 fun CalendarRow(
     modifier: Modifier = Modifier,
     pagerState: PagerState,
-    totalPages: Int = 100
+    totalPages: Int = 100,
+    backToCurrentDateClick: () -> Unit = {}
 ) {
     HorizontalPager(
         state = pagerState,
@@ -128,11 +129,15 @@ fun CalendarRow(
         ) {
             Text(
                 text = convertMonthToRus(currentWeekStartDate.month.toString()),
-                modifier = Modifier.padding(bottom = 16.dp),
+                modifier = Modifier
+                    .padding(bottom = 16.dp)
+                    .clip(CircleShape)
+                    .clickable { backToCurrentDateClick() },
                 fontSize = 14.sp,
                 lineHeight = 16.94.sp,
                 fontWeight = FontWeight.Bold,
-            )
+
+                )
             WeekScreen(currentWeekStartDate = currentWeekStartDate)
         }
     }
@@ -142,7 +147,6 @@ fun calculateWeekStartDate(currentPage: Int, totalPages: Int): LocalDate {
     return LocalDate.now().with(java.time.DayOfWeek.MONDAY)
         .plusWeeks(currentPage.toLong() - totalPages / 2)
 }
-
 
 
 @OptIn(ExperimentalFoundationApi::class)

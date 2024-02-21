@@ -36,7 +36,9 @@ import com.example.testmobapp.data.model.TableTag
 import com.example.testmobapp.data.model.TaskDomain
 import com.example.testmobapp.presentation.newview.references.AddFAB
 import com.example.testmobapp.presentation.viewmodel.TableViewModel
+import kotlinx.coroutines.launch
 import org.koin.androidx.compose.koinViewModel
+import java.time.LocalDate
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalFoundationApi::class, ExperimentalMaterial3Api::class)
@@ -68,6 +70,8 @@ fun TableScreen(viewModel: TableViewModel = koinViewModel()) {
         mutableStateOf(false)
     }
 
+    val coroutineScope = rememberCoroutineScope()
+
     Scaffold(
         floatingActionButton = { AddFAB(onClick = { sheetState = true }) },
         containerColor = Color.White,
@@ -79,7 +83,14 @@ fun TableScreen(viewModel: TableViewModel = koinViewModel()) {
         )
 
         Column(modifier = Modifier.fillMaxSize()) {
-            CalendarRow(pagerState = pagerState, totalPages = totalPages)
+            CalendarRow(
+                pagerState = pagerState,
+                totalPages = totalPages,
+                backToCurrentDateClick = {
+                    viewModel.todayIsState.value = LocalDate.now()
+                    coroutineScope.launch { pagerState.animateScrollToPage(totalPages / 2) }
+                }
+            )
             Row(
                 modifier = Modifier
                     .fillMaxSize()

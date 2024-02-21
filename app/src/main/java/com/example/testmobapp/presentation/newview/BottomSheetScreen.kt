@@ -10,10 +10,10 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -25,13 +25,16 @@ import com.example.testmobapp.presentation.newview.utils.DoneButton
 import com.example.testmobapp.presentation.newview.utils.ManageBox
 import com.example.testmobapp.presentation.newview.utils.TaskDescriptionTF
 import com.example.testmobapp.presentation.newview.utils.TaskTitleTF
-import kotlinx.coroutines.launch
 import java.time.LocalDate
 
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun BottomSheetScreen(showBottomSheet: Boolean, closeSheet: () -> Unit = {}) {
+fun BottomSheetScreen(
+    showBottomSheet: Boolean,
+    cancelAdding: () -> Unit = {},
+    saveTask: (title: String, desc: String) -> Unit = { s1, s2 -> }
+) {
 
     var titleState by remember {
         mutableStateOf("")
@@ -42,27 +45,33 @@ fun BottomSheetScreen(showBottomSheet: Boolean, closeSheet: () -> Unit = {}) {
     }
 
     val sheetState = rememberModalBottomSheetState()
-    val scope = rememberCoroutineScope()
+//    val scope = rememberCoroutineScope()
 
-    val doneAction = remember {
-        {
-            scope.launch { sheetState.hide() }.invokeOnCompletion {
-                if (!sheetState.isVisible) {
-                    titleState = ""
-                    descState = ""
-                    closeSheet()
-                }
-            }
+    LaunchedEffect(showBottomSheet) {
+        if (!showBottomSheet) {
+            titleState = ""
+            descState = ""
         }
     }
 
+//    val doneAction = remember {
+//        {
+//            scope.launch(Dispatchers.IO) { sheetState.hide() }.invokeOnCompletion {
+//                if (!sheetState.isVisible) {
+//                    titleState = ""
+//                    descState = ""
+//                    saveTask(titleState, descState)
+//                }
+//            }
+//        }
+//    }
 
     if (showBottomSheet) {
         ModalBottomSheet(
             onDismissRequest = {
                 titleState = ""
                 descState = ""
-                closeSheet()
+                cancelAdding()
             },
             sheetState = sheetState,
             containerColor = Color.White
@@ -101,7 +110,7 @@ fun BottomSheetScreen(showBottomSheet: Boolean, closeSheet: () -> Unit = {}) {
                         .padding(top = 12.dp)
                 )
 
-                DoneButton(onClick = { doneAction() })
+                DoneButton(onClick = { saveTask(titleState, descState) })
             }
         }
     }

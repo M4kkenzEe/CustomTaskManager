@@ -126,6 +126,25 @@ class TableViewModel(private val taskInteractor: TaskInteractor) : ViewModel() {
         }
     }
 
+    fun addTask(title: String, desc: String) {
+        val taskDomain = TaskDomain(
+            id = 0,
+            title = title,
+            description = desc,
+            tableTag = TableTag.NOT_STARTED,
+            createdAt = todayIsState.value
+        )
+        viewModelScope.launch(Dispatchers.IO) {
+            try {
+                taskInteractor.insertTask(taskDomain)
+            } catch (e: Exception) {
+                Log.d("DB", "Error! (addTask)\n${e.message}\n${e.localizedMessage}")
+            }
+        }
+        getAllTasks()
+    }
+
+
     init {
         getAllTasks()
     }

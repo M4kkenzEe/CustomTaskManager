@@ -106,7 +106,8 @@ fun WeekScreen(currentWeekStartDate: LocalDate) {
 @Composable
 fun CalendarRow(
     modifier: Modifier = Modifier,
-    pagerState: PagerState
+    pagerState: PagerState,
+    totalPages: Int = 100
 ) {
     HorizontalPager(
         state = pagerState,
@@ -116,7 +117,7 @@ fun CalendarRow(
             .wrapContentHeight()
             .padding(vertical = 16.dp)
     ) {
-        val currentWeekStartDate = calculateWeekStartDate(pagerState.currentPage)
+        val currentWeekStartDate = calculateWeekStartDate(pagerState.currentPage, totalPages)
         Column(
             modifier = Modifier
                 .fillMaxWidth()
@@ -135,9 +136,9 @@ fun CalendarRow(
     }
 }
 
-fun calculateWeekStartDate(currentPage: Int): LocalDate {
+fun calculateWeekStartDate(currentPage: Int, totalPages: Int): LocalDate {
     return LocalDate.now().with(java.time.DayOfWeek.MONDAY)
-        .plusWeeks(currentPage.toLong() - Int.MAX_VALUE / 2)
+        .plusWeeks(currentPage.toLong() - totalPages / 2)
 }
 
 @OptIn(ExperimentalFoundationApi::class)

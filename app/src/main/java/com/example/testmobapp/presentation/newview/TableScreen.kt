@@ -67,10 +67,14 @@ fun TableScreen(viewModel: TableViewModel = koinViewModel()) {
     }
 
     Scaffold(
-        floatingActionButton = { AddFAB(onClick = {sheetState = true}) },
+        floatingActionButton = { AddFAB(onClick = { sheetState = true }) },
         containerColor = Color.White,
     ) {
-        BottomSheetScreen(showBottomSheet = sheetState, closeSheet = { sheetState = false })
+        BottomSheetScreen(
+            showBottomSheet = sheetState,
+            cancelAdding = { sheetState = false },
+            saveTask = { title, desc -> viewModel.addTask(title, desc) }
+        )
 
         Column(modifier = Modifier.fillMaxSize()) {
             CalendarRow(pagerState = pagerState)

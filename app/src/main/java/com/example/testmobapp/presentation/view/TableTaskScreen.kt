@@ -51,6 +51,8 @@ import com.example.testmobapp.data.model.TaskDomain
 import com.example.testmobapp.presentation.newview.CalendarRow
 import com.example.testmobapp.presentation.viewmodel.TableViewModel
 import com.example.testmobapp.ui.theme.PurpleGrey40
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.NonCancellable
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.koinViewModel
 import java.time.LocalDate
@@ -83,9 +85,16 @@ fun TableTaskScreen(
         )
     }
 
+    //TODO fix this shit (out of memory)
+//    val pagerState = rememberPagerState(
+//        pageCount = { 52 },
+//        initialPage = Int.MAX_VALUE / 2
+//    )
+
+    val totalPages = 100 // Измените это значение на то, которое лучше подходит для вашего приложения
     val pagerState = rememberPagerState(
-        pageCount = { Int.MAX_VALUE },
-        initialPage = Int.MAX_VALUE / 2
+        pageCount = { totalPages },
+        initialPage = totalPages / 2
     )
 
     val coroutineScope = rememberCoroutineScope()
@@ -99,7 +108,9 @@ fun TableTaskScreen(
             addTaskCLick = { createTaskState = true },
             currentDateClick = {
                 vm.todayIsState.value = LocalDate.now()
-                coroutineScope.launch{ pagerState.animateScrollToPage(Int.MAX_VALUE / 2) }
+                coroutineScope.launch(Dispatchers.Main + NonCancellable) {
+                    pagerState.animateScrollToPage(Int.MAX_VALUE / 2)
+                }
             })
 
         CalendarRow(pagerState = pagerState)

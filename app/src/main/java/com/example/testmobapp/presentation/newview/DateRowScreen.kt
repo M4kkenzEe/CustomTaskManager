@@ -50,8 +50,8 @@ fun CalendarDay(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
-            text = dayOfWeek[0].toString() + dayOfWeek[1].toString() + dayOfWeek[2].toString(),
-            fontSize = 10.sp,
+            text = convertDayToRusSmall(dayOfWeek),
+            fontSize = 12.sp,
             fontWeight = FontWeight.Bold,
             color = Color.Black,
         )
@@ -125,7 +125,7 @@ fun CalendarRow(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(
-                text = currentWeekStartDate.month.toString(),
+                text = convertMonthToRus(currentWeekStartDate.month.toString()),
                 modifier = Modifier.padding(bottom = 16.dp),
                 fontSize = 14.sp,
                 lineHeight = 16.94.sp,
@@ -140,6 +140,44 @@ fun calculateWeekStartDate(currentPage: Int, totalPages: Int): LocalDate {
     return LocalDate.now().with(java.time.DayOfWeek.MONDAY)
         .plusWeeks(currentPage.toLong() - totalPages / 2)
 }
+
+//Converting days of month to Russian lang
+fun convertDayToRus(dayOfWeek: String) = when (dayOfWeek) {
+    "MONDAY" -> "Понедельник"
+    "TUESDAY" -> "Вторник"
+    "WEDNESDAY" -> "Среда"
+    "THURSDAY" -> "Четверг"
+    "FRIDAY" -> "Пятница"
+    "SATURDAY" -> "Суббота"
+    else -> "Воскресенье"
+}
+
+fun convertDayToRusSmall(dayOfWeek: String) = when (dayOfWeek) {
+    "MONDAY" -> "Пн"
+    "TUESDAY" -> "Вт"
+    "WEDNESDAY" -> "Ср"
+    "THURSDAY" -> "Чт"
+    "FRIDAY" -> "Пт"
+    "SATURDAY" -> "Сб"
+    else -> "Вс"
+}
+
+fun convertMonthToRus(month: String) = when (month) {
+    "JANUARY" -> "Январь"
+    "FEBRUARY" -> "Февраль"
+    "MARCH" -> "Март"
+    "APRIL" -> "Апрель"
+    "MAY" -> "Май"
+    "JUNE" -> "Июнь"
+    "JULY" -> "Июль"
+    "AUGUST" -> "Август"
+    "SEPTEMBER" -> "Сентябрь"
+    "OCTOBER" -> "Октябрь"
+    "NOVEMBER" -> "Ноябрь"
+    else -> "Декабрь"
+
+}
+
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable

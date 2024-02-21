@@ -42,9 +42,11 @@ import org.koin.androidx.compose.koinViewModel
 @OptIn(ExperimentalFoundationApi::class, ExperimentalMaterial3Api::class)
 @Composable
 fun TableScreen(viewModel: TableViewModel = koinViewModel()) {
+
+    val totalPages = 1000
     val pagerState = rememberPagerState(
-        pageCount = { Int.MAX_VALUE },
-        initialPage = Int.MAX_VALUE / 2
+        pageCount = { totalPages },
+        initialPage = totalPages / 2
     )
 
     val tasksByCategory by viewModel.viewState.collectAsState()
@@ -77,7 +79,7 @@ fun TableScreen(viewModel: TableViewModel = koinViewModel()) {
         )
 
         Column(modifier = Modifier.fillMaxSize()) {
-            CalendarRow(pagerState = pagerState)
+            CalendarRow(pagerState = pagerState, totalPages = totalPages)
             Row(
                 modifier = Modifier
                     .fillMaxSize()
@@ -132,7 +134,8 @@ fun TaskColumn(
             modifier = Modifier
                 .fillMaxSize()
                 .border(BorderStroke(1.dp, Color.Black))
-                .padding(top = 6.dp, start = 4.dp, end = 4.dp, bottom = 6.dp)
+                .padding(top = 6.dp, start = 4.dp, end = 4.dp, bottom = 6.dp),
+            verticalArrangement = Arrangement.spacedBy(6.dp)
         ) {
             items(taskList, key = { task -> task.id }) { task ->
                 CardTaskScreen(

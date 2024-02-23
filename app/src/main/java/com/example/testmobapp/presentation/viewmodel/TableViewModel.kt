@@ -103,6 +103,25 @@ class TableViewModel(private val taskInteractor: TaskInteractor) : ViewModel() {
         getAllTasks()
     }
 
+    fun setTag(taskDomain: TaskDomain, tag: TableTag) {
+        val resultTask = TaskDomain(
+            id = taskDomain.id,
+            title = taskDomain.title,
+            description = taskDomain.description,
+            tableTag = tag,
+            createdAt = taskDomain.createdAt
+        )
+
+        viewModelScope.launch(Dispatchers.IO) {
+            try {
+                taskInteractor.editTask(resultTask)
+            } catch (e: Exception) {
+                Log.d("DB", "Error! (editTask)\n${e.message}\n${e.localizedMessage}")
+            }
+        }
+        getAllTasks()
+    }
+
     fun createTask(taskDomain: TaskDomain) {
         viewModelScope.launch {
             try {
@@ -118,6 +137,18 @@ class TableViewModel(private val taskInteractor: TaskInteractor) : ViewModel() {
         viewModelScope.launch {
             try {
                 taskInteractor.deleteTask(currentTaskState.value!!)
+            } catch (e: Exception) {
+                Log.d("DB", "Error! (deleteTask)\n${e.message}\n${e.localizedMessage}")
+            }
+            currentTaskState.value = null
+            getAllTasks()
+        }
+    }
+
+    fun deleteTask1(task: TaskDomain) {
+        viewModelScope.launch {
+            try {
+                taskInteractor.deleteTask(task)
             } catch (e: Exception) {
                 Log.d("DB", "Error! (deleteTask)\n${e.message}\n${e.localizedMessage}")
             }

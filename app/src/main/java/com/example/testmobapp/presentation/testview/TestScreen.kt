@@ -1,3 +1,5 @@
+@file:Suppress("IMPLICIT_CAST_TO_ANY")
+
 package com.example.testmobapp.presentation.testview
 
 import androidx.compose.foundation.ExperimentalFoundationApi
@@ -18,8 +20,12 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Button
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.SwipeToDismissBox
+import androidx.compose.material3.SwipeToDismissBoxValue
 import androidx.compose.material3.Text
+import androidx.compose.material3.rememberSwipeToDismissBoxState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -33,6 +39,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.zIndex
 import com.example.testmobapp.data.model.TaskDomain
+import com.example.testmobapp.presentation.newview.CardTaskScreen
 import com.example.testmobapp.presentation.viewmodel.TableViewModel
 import org.koin.androidx.compose.koinViewModel
 import java.time.LocalDate
@@ -62,7 +69,7 @@ fun TestScreen(vm: TableViewModel = koinViewModel()) {
                     .padding(20.dp)
                     .combinedClickable(
                         onClick = { vm.editTagTask(task) },
-                        onLongClick = {  }),
+                        onLongClick = { }),
                 contentAlignment = Alignment.Center
             ) {
                 Column(
@@ -164,13 +171,32 @@ fun CalendarScreen() {
 
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 @Preview
 fun TestScreenPrev() {
 //    TestScreen()
-    Column(
+//    Column(
+//        modifier = Modifier
+//            .fillMaxSize()
+//            .background(Color.White)
+//    ) { WeeklyCalendarView() }
+
+    val state = rememberSwipeToDismissBoxState()
+    val color = when (state.dismissDirection) {
+        SwipeToDismissBoxValue.StartToEnd -> Color.Red
+        SwipeToDismissBoxValue.EndToStart -> Color.Green
+        SwipeToDismissBoxValue.Settled -> Color.Cyan
+        else -> Color.Black
+    }
+
+    SwipeToDismissBox(
+        state = state,
+        backgroundContent = { },
         modifier = Modifier
-            .fillMaxSize()
-            .background(Color.White)
-    ) { WeeklyCalendarView() }
+            .fillMaxWidth()
+            .background(color)
+    ) {
+        CardTaskScreen()
+    }
 }

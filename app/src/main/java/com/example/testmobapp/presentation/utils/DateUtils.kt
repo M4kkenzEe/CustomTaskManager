@@ -35,5 +35,29 @@ fun convertMonthToRus(month: String) = when (month) {
     "OCTOBER" -> "Октябрь"
     "NOVEMBER" -> "Ноябрь"
     else -> "Декабрь"
+}
 
+enum class WeekDays(val rus: String, val rusShort: String) {
+    MONDAY("Понедельник", "Пн"),
+    TUESDAY("Вторник", "Вт"),
+    WEDNESDAY("Среда", "Ср"),
+    THURSDAY("Четверг", "Чт"),
+    FRIDAY("Пятница", "Пт"),
+    SATURDAY("Субботу", "Сб"),
+    SUNDAY("Воскресенье", "Вс"),
+}
+
+enum class Months(val rus: String) {
+    JANUARY("Январь"),
+    FEBRUARY("Февраль"),
+    MARCH("Март"),
+    APRIL("Апрель"),
+    MAY("Май"),
+    JUNE("Июнь"),
+    JULY("Июль"),
+    AUGUST("Август"),
+    SEPTEMBER("Сентябрь"),
+    OCTOBER("Октябрь"),
+    NOVEMBER("Ноябрь"),
+    DECEMBER("Декабрь")
 }

@@ -19,7 +19,10 @@ import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SwipeToDismissBox
+import androidx.compose.material3.SwipeToDismissBoxValue
 import androidx.compose.material3.Text
+import androidx.compose.material3.rememberSwipeToDismissBoxState
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -100,29 +103,39 @@ fun TableScreen(viewModel: TableViewModel = koinViewModel()) {
                 TaskColumn(
                     modifier = Modifier.weight(1f),
                     label = stringResource(id = R.string.label_not_started),
-                    taskList = notStartedTasks
+                    taskList = notStartedTasks,
+                    swipeToLeft = { viewModel.deleteTask1(it) },
+                    swipeToRight = { viewModel.setTag(it, TableTag.IN_PROGRESS) }
                 )
                 TaskColumn(
                     modifier = Modifier.weight(1f),
                     label = stringResource(id = R.string.label_in_progress),
-                    taskList = inProgressTasks
+                    taskList = inProgressTasks,
+                    swipeToLeft = { viewModel.setTag(it, TableTag.NOT_STARTED) },
+                    swipeToRight = { viewModel.setTag(it, TableTag.FINISHED) }
                 )
                 TaskColumn(
                     modifier = Modifier.weight(1f),
                     label = stringResource(id = R.string.label_finished),
-                    taskList = finishedTasks
+                    taskList = finishedTasks,
+                    swipeToLeft = { viewModel.setTag(it, TableTag.IN_PROGRESS) },
+                    swipeToRight = { viewModel.deleteTask1(it) }
                 )
             }
         }
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TaskColumn(
     modifier: Modifier = Modifier,
     label: String = "Не начатые",
-    taskList: List<TaskDomain>
+    taskList: List<TaskDomain>,
+    swipeToLeft: (task: TaskDomain) -> Unit = {},
+    swipeToRight: (task: TaskDomain) -> Unit = {},
 ) {
+
     Column(
         modifier = modifier.fillMaxHeight(),
         horizontalAlignment = Alignment.CenterHorizontally
@@ -149,11 +162,31 @@ fun TaskColumn(
             verticalArrangement = Arrangement.spacedBy(6.dp)
         ) {
             items(taskList, key = { task -> task.id }) { task ->
-                CardTaskScreen(
-                    taskTitle = task.title,
-                    taskDesc = task.description,
-                    taskStatus = task.tableTag,
-                )
+
+                val swipeToDismissState = rememberSwipeToDismissBoxState()
+
+                when (swipeToDismissState.dismissDirection) {
+                    SwipeToDismissBoxValue.StartToEnd -> {
+                        swipeToRight(task)
+                    }
+
+                    SwipeToDismissBoxValue.EndToStart -> {
+                        swipeToLeft(task)
+                    }
+
+                    else -> {}
+                }
+
+                SwipeToDismissBox(
+                    state = swipeToDismissState,
+                    backgroundContent = {},
+                ) {
+                    CardTaskScreen(
+                        taskTitle = task.title,
+                        taskDesc = task.description,
+                        taskStatus = task.tableTag,
+                    )
+                }
             }
         }
 

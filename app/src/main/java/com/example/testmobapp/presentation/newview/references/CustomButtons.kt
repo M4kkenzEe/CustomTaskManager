@@ -1,5 +1,6 @@
 package com.example.testmobapp.presentation.newview.references
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -30,12 +31,15 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.testmobapp.R
+import com.example.testmobapp.presentation.model.PriorityTag
+import com.example.testmobapp.presentation.ui.theme.Black34
+import com.example.testmobapp.presentation.ui.theme.Coffee
 
 @Composable
 fun AddFAB(modifier: Modifier = Modifier, onClick: () -> Unit = {}) {
     SmallFloatingActionButton(
         onClick = { onClick() },
-        containerColor = Color.Black,
+        containerColor = Coffee,
         contentColor = Color.White,
         modifier = modifier
     ) {
@@ -52,8 +56,8 @@ fun DoneButton(
     modifier: Modifier = Modifier,
     onClick: () -> Unit = {},
     text: String = "Done!",
-    buttonColor: Color = Color.Black,
-    textColor: Color = Color.White
+    buttonColor: Color = Color.White,
+    textColor: Color = Color.Black
 ) {
     Button(
         onClick = { onClick() },
@@ -62,6 +66,7 @@ fun DoneButton(
             containerColor = buttonColor
         ),
         shape = RoundedCornerShape(30.dp),
+        border = BorderStroke(1.dp, Color.Black),
         modifier = modifier
             .wrapContentHeight(Alignment.CenterVertically)
             .width(96.dp)
@@ -75,8 +80,8 @@ fun ManageBox(
     modifier: Modifier = Modifier,
     onClick: () -> Unit = {},
     text: String = "",
-    buttonColor: Color = Color.Black,
-    textColor: Color = Color.White,
+    buttonColor: Color = Coffee,
+    textColor: Color = Black34,
     icon: Int
 ) {
     Box(
@@ -87,20 +92,29 @@ fun ManageBox(
             .wrapContentWidth()
             .wrapContentHeight()
             .padding(horizontal = 8.dp, vertical = 6.dp)
-            .height(24.dp)
-        ,
+            .height(24.dp),
         contentAlignment = Alignment.Center
     ) {
         Row(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.Center
         ) {
-            Image(painter = painterResource(id = icon), contentDescription = null)
+            if (icon in (0..2)) {
+                val taskPriority = when (icon) {
+                    1 -> PriorityTag.ORANGE
+                    2 -> PriorityTag.RED
+                    else -> PriorityTag.GREEN
+                }
+                PriorityCircle(taskPriority = taskPriority)
+            } else {
+                Image(painter = painterResource(id = icon), contentDescription = null)
+            }
+
             if (text != "") {
                 Text(
                     text = text,
                     fontSize = 10.sp,
-                    fontWeight = FontWeight.Normal,
+                    fontWeight = FontWeight(400),
                     color = textColor,
                     modifier = Modifier.padding(start = 4.dp)
                 )
@@ -123,7 +137,7 @@ fun ButtonsPrev() {
             ManageBox(icon = R.drawable.ic_sandtimer_white)
             ManageBox(icon = R.drawable.ic_clock_white)
             ManageBox(icon = R.drawable.ic_flag_white)
-            ManageBox(icon = R.drawable.ic_flag_white, text="")
+            ManageBox(icon = R.drawable.ic_flag_white, text = "")
         }
     }
 

@@ -31,8 +31,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.testmobapp.presentation.utils.convertDayToRusSmall
-import com.example.testmobapp.presentation.utils.convertMonthToRus
+import com.example.testmobapp.presentation.utils.Months
+import com.example.testmobapp.presentation.utils.WeekDays
 import com.example.testmobapp.presentation.viewmodel.TableViewModel
 import org.koin.androidx.compose.koinViewModel
 import java.time.LocalDate
@@ -52,7 +52,7 @@ fun CalendarDay(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
-            text = convertDayToRusSmall(dayOfWeek),
+            text = WeekDays.valueOf(dayOfWeek).rusShort,
             fontSize = 12.sp,
             fontWeight = FontWeight.Bold,
             color = Color.Black,
@@ -128,7 +128,7 @@ fun CalendarRow(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(
-                text = convertMonthToRus(currentWeekStartDate.month.toString()),
+                text = Months.valueOf(currentWeekStartDate.month.toString()).rus,
                 modifier = Modifier
                     .padding(bottom = 16.dp)
                     .clip(CircleShape)

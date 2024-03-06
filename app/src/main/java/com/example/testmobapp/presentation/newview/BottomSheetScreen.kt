@@ -22,6 +22,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.testmobapp.R
+import com.example.testmobapp.presentation.model.PriorityTag
 import com.example.testmobapp.presentation.newview.references.DoneButton
 import com.example.testmobapp.presentation.newview.references.ManageBox
 import com.example.testmobapp.presentation.newview.references.TaskDescriptionTF
@@ -35,7 +36,7 @@ import java.time.LocalDate
 fun BottomSheetScreen(
     showBottomSheet: Boolean,
     cancelAdding: () -> Unit = {},
-    saveTask: (title: String, desc: String) -> Unit = { _, _ -> }
+    saveTask: (title: String, desc: String, priorityTag: PriorityTag) -> Unit = { _, _, _ -> }
 ) {
     val context = LocalContext.current
 
@@ -45,6 +46,10 @@ fun BottomSheetScreen(
 
     var descState by remember {
         mutableStateOf("")
+    }
+
+    var priorityTag by remember {
+        mutableStateOf(PriorityTag.GREEN)
     }
 
     val sheetState = rememberModalBottomSheetState()
@@ -95,7 +100,26 @@ fun BottomSheetScreen(
                     )
                     ManageBox(icon = R.drawable.ic_sandtimer_white)
                     ManageBox(icon = R.drawable.ic_clock_white)
-                    ManageBox(icon = R.drawable.ic_flag_white)
+//                    ManageBox(icon = R.drawable.ic_flag_white)
+                    ManageBox(
+                        icon = mapPriorityToInt(priorityTag),
+                        onClick = {
+                            priorityTag = when (priorityTag) {
+                                PriorityTag.RED -> {
+                                    PriorityTag.GREEN
+                                }
+
+                                PriorityTag.ORANGE -> {
+                                    PriorityTag.RED
+                                }
+
+                                PriorityTag.GREEN -> {
+                                    PriorityTag.ORANGE
+                                }
+                            }
+                        },
+                        text = "Приоритет"
+                    )
                 }
 
                 TaskDescriptionTF(
@@ -107,7 +131,7 @@ fun BottomSheetScreen(
                 )
 
                 DoneButton(onClick = {
-                    saveTask(titleState, descState)
+                    saveTask(titleState, descState, priorityTag)
                     clearFields()
                     showToast(context)
                 })
@@ -115,6 +139,23 @@ fun BottomSheetScreen(
         }
     }
 }
+
+fun mapIntToPriorityTag(x: Int): PriorityTag {
+    return when (x) {
+        1 -> PriorityTag.ORANGE
+        2 -> PriorityTag.RED
+        else -> PriorityTag.GREEN
+    }
+}
+
+fun mapPriorityToInt(tag: PriorityTag): Int {
+    return when (tag) {
+        PriorityTag.ORANGE -> 1
+        PriorityTag.RED -> 2
+        else -> 0
+    }
+}
+
 
 @Composable
 @Preview

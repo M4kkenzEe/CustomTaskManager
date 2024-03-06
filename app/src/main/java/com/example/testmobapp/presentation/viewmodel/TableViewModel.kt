@@ -8,6 +8,7 @@ import com.example.testmobapp.data.mapper.TaskMapper.mapEntityToDomain
 import com.example.testmobapp.data.model.TableTag
 import com.example.testmobapp.data.model.TaskDomain
 import com.example.testmobapp.domain.interactor.TaskInteractor
+import com.example.testmobapp.presentation.model.PriorityTag
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -157,12 +158,13 @@ class TableViewModel(private val taskInteractor: TaskInteractor) : ViewModel() {
         }
     }
 
-    fun addTask(title: String, desc: String) {
+    fun addTask(title: String, desc: String, priorityTag: PriorityTag) {
         val taskDomain = TaskDomain(
             id = 0,
             title = title,
             description = desc,
             tableTag = TableTag.NOT_STARTED,
+            priorityTag = priorityTag,
             createdAt = todayIsState.value
         )
         viewModelScope.launch(Dispatchers.IO) {

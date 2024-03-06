@@ -16,7 +16,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.testmobapp.R
-import com.example.testmobapp.ui.theme.WhiteSoft
+import com.example.testmobapp.presentation.ui.theme.WhiteSoft
 import kotlinx.coroutines.delay
 
 @Composable

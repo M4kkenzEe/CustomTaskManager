@@ -49,8 +49,8 @@ import androidx.compose.ui.window.Dialog
 import com.example.testmobapp.data.model.TableTag
 import com.example.testmobapp.data.model.TaskDomain
 import com.example.testmobapp.presentation.newview.CalendarRow
+import com.example.testmobapp.presentation.ui.theme.PurpleGrey40
 import com.example.testmobapp.presentation.viewmodel.TableViewModel
-import com.example.testmobapp.ui.theme.PurpleGrey40
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.NonCancellable
 import kotlinx.coroutines.launch
@@ -336,6 +336,7 @@ fun CreateTaskDialog(
     var descState by remember {
         mutableStateOf("")
     }
+
 
     Dialog(onDismissRequest = { onDismiss() }) {
         Column(

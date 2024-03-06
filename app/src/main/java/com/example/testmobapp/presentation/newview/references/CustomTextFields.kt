@@ -25,7 +25,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.testmobapp.ui.theme.Gray80
+import com.example.testmobapp.presentation.ui.theme.Gray80
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

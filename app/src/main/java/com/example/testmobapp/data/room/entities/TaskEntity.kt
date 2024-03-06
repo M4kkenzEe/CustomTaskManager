@@ -10,5 +10,6 @@ data class TaskEntity(
     @ColumnInfo var title: String?,
     @ColumnInfo var description: String?,
     @ColumnInfo var tableTag: String?,
+    @ColumnInfo var priorityTag: String?,
     @ColumnInfo var createdAt: String
 )

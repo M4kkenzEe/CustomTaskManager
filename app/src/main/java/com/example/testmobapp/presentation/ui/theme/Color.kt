@@ -14,6 +14,8 @@ val Black34 = Color(0xFF343434)
 val Gray80 = Color(0xFF808080)
 val GrayF3 = Color(0xFFF3F3F3)
 val GrayE3 = Color(0xFFE3E3E3)
+val GrayEe = Color(0xFFEEEEEE)
+val GrayBorder = Color(0xFFBABABA)
 val WhiteSoft = Color(0xFFE5DAD0)
 val Coffee = Color(0xFFE5DACF)
 

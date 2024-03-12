@@ -20,7 +20,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Surface
 import androidx.compose.material3.SwipeToDismissBox
 import androidx.compose.material3.SwipeToDismissBoxValue
 import androidx.compose.material3.Text
@@ -47,8 +47,8 @@ import androidx.compose.ui.unit.sp
 import com.example.testmobapp.R
 import com.example.testmobapp.data.model.TableTag
 import com.example.testmobapp.data.model.TaskDomain
-import com.example.testmobapp.presentation.newview.references.AddFAB
-import com.example.testmobapp.presentation.ui.theme.Coffee
+import com.example.testmobapp.presentation.ui.theme.GrayBorder
+import com.example.testmobapp.presentation.ui.theme.GrayEe
 import com.example.testmobapp.presentation.viewmodel.TableViewModel
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.koinViewModel
@@ -86,19 +86,16 @@ fun TableScreen(viewModel: TableViewModel = koinViewModel()) {
 
     val coroutineScope = rememberCoroutineScope()
 
-    Scaffold(
-        floatingActionButton = {
-            AddFAB(onClick = { sheetState = true })
-        },
-        containerColor = Color.White,
-    ) {
+    Surface(modifier = Modifier.background(Color.White)) {
         BottomSheetScreen(
             showBottomSheet = sheetState,
             cancelAdding = { sheetState = false },
             saveTask = { title, desc, priorityTag -> viewModel.addTask(title, desc, priorityTag) }
         )
 
-        Column(modifier = Modifier.fillMaxSize()) {
+        Column(modifier = Modifier
+            .fillMaxSize()
+            .background(Color.White)) {
             CalendarRow(
                 pagerState = pagerState,
                 totalPages = totalPages,
@@ -178,27 +175,28 @@ fun TaskColumn(
         Text(
             text = label,
             fontWeight = FontWeight.Bold,
-            fontSize = 12.sp,
+            fontSize = 14.sp,
             color = Color.Black,
             textAlign = TextAlign.Center,
+            lineHeight = 14.52.sp,
             modifier = Modifier
                 .fillMaxWidth()
                 .clip(RoundedCornerShape(topStart = 10.dp, topEnd = 10.dp))
                 .border(
-                    BorderStroke(1.dp, Color.Black),
+                    BorderStroke(0.5.dp, GrayBorder),
                     RoundedCornerShape(topStart = 10.dp, topEnd = 10.dp)
                 )
-                .background(Coffee)
-                .height(24.dp)
-                .padding(top = 2.dp),
+                .background(GrayEe)
+                .height(28.dp)
+                .padding(top = 8.dp),
         )
 
         LazyColumn(
             modifier = Modifier
                 .fillMaxSize()
-                .border(BorderStroke(1.dp, Color.Black))
+                .border(BorderStroke(0.5.dp, GrayBorder))
                 .padding(top = 8.dp, start = 4.dp, end = 4.dp, bottom = 6.dp),
-            verticalArrangement = Arrangement.spacedBy(6.dp)
+            verticalArrangement = Arrangement.spacedBy(4.dp)
         ) {
             items(taskList, key = { task -> task.id }) { task ->
 

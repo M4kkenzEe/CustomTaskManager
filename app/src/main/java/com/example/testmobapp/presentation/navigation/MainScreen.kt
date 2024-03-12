@@ -28,6 +28,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.testmobapp.presentation.navigation.bottom.BottomBarScreens
 import com.example.testmobapp.presentation.navigation.bottom.BottomNavGraph
+import com.example.testmobapp.presentation.ui.theme.GrayE3
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
@@ -70,7 +71,7 @@ fun BottomBar(navController: NavHostController) {
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentDestination = navBackStackEntry?.destination
 
-    BottomAppBar {
+    BottomAppBar(containerColor = GrayE3) {
         screens.forEach { screen ->
             AddItem(
                 screen = screen,

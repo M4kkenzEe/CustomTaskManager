@@ -6,7 +6,7 @@ sealed class BottomBarScreens(val route: String, val title: String, val icon: In
     object AddTaskScreen : BottomBarScreens(
         route = "route_add",
         title = "Задачи",
-        icon = R.drawable.ic_adding_tasks
+        icon = R.drawable.ic_add_task
     )
 
     object FocusScreen : BottomBarScreens(
@@ -23,7 +23,7 @@ sealed class BottomBarScreens(val route: String, val title: String, val icon: In
 
     object ProgressScreen : BottomBarScreens(
         route = "route_progress",
-        title = "Сфокусироваться",
+        title = "Прогресс",
         icon = R.drawable.ic_progress
     )
 

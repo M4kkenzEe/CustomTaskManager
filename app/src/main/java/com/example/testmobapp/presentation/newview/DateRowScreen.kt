@@ -31,6 +31,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.testmobapp.presentation.ui.theme.GrayEe
 import com.example.testmobapp.presentation.utils.Months
 import com.example.testmobapp.presentation.utils.WeekDays
 import com.example.testmobapp.presentation.viewmodel.TableViewModel
@@ -44,8 +45,8 @@ fun CalendarDay(
     isClicked: Boolean,
     onClick: () -> Unit = {},
 ) {
-    val bgColor = if (!isClicked) Color.White else Color.Black
-    val textColor = if (!isClicked) Color.Black else Color.White
+    val bgColor = if (!isClicked) Color.White else GrayEe
+    val textColor = if (!isClicked) Color.Black else Color.Black
 
     Column(
         modifier = Modifier.wrapContentSize(),

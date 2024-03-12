@@ -20,7 +20,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -32,8 +32,9 @@ import androidx.compose.ui.unit.sp
 import com.example.testmobapp.data.model.TableTag
 import com.example.testmobapp.presentation.model.PriorityTag
 import com.example.testmobapp.presentation.newview.references.PriorityCircle
-import com.example.testmobapp.presentation.ui.theme.Coffee
 import com.example.testmobapp.presentation.ui.theme.Gray80
+import com.example.testmobapp.presentation.ui.theme.GrayBorder
+import com.example.testmobapp.presentation.ui.theme.GrayF3
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
@@ -46,15 +47,19 @@ fun CardTaskScreen(
     onClick: () -> Unit = {},
     onLongClick: () -> Unit = {},
 ) {
-    val cardColor = if (taskStatus == TableTag.FINISHED) Coffee else Color.White
+    val cardColor = if (taskStatus == TableTag.FINISHED) GrayF3 else Color.White
     val textStyle =
         if (taskStatus == TableTag.FINISHED) TextStyle(textDecoration = TextDecoration.LineThrough)
         else TextStyle(textDecoration = TextDecoration.None)
 
     Box(
         modifier = modifier
-            .border(BorderStroke(1.dp, Color.Black), RoundedCornerShape(20))
-            .shadow(elevation = 4.dp, shape = RoundedCornerShape(20))
+            .border(BorderStroke(0.5.dp, GrayBorder), RoundedCornerShape(20))
+            .clip(RoundedCornerShape(20))
+//            .shadow(
+//                elevation = 0.dp,
+//                shape = RoundedCornerShape(20)
+//            )
             .background(cardColor)
             .fillMaxWidth()
             .combinedClickable(
@@ -68,29 +73,18 @@ fun CardTaskScreen(
             modifier = Modifier
                 .wrapContentHeight()
                 .padding(8.dp)
-                .padding(horizontal = 8.dp)
-                .padding(top = 8.dp)
-            ,
+                .padding(start = 8.dp)
+                .padding(top = 8.dp),
             verticalArrangement = Arrangement.spacedBy(2.dp)
         ) {
             Text(
                 text = taskTitle,
-                fontWeight = FontWeight.Bold,
-                fontSize = 10.sp,
+                fontWeight = FontWeight(600),
+                fontSize = 12.sp,
                 lineHeight = 12.1.sp,
                 color = Color.Black,
                 textAlign = TextAlign.Start,
                 maxLines = 3,
-                style = textStyle
-            )
-            Text(
-                text = taskDesc,
-                fontSize = 6.sp,
-                lineHeight = 7.26.sp,
-                fontWeight = FontWeight(400),
-                textAlign = TextAlign.Start,
-                maxLines = 10,
-                modifier = Modifier.padding(top = 4.dp),
                 style = textStyle
             )
             Row(

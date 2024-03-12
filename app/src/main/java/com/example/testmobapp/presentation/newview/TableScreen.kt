@@ -41,6 +41,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.testmobapp.R
@@ -155,11 +156,18 @@ fun TaskColumn(
     DropdownMenu(
         expanded = isContextMenuVisible,
         onDismissRequest = { isContextMenuVisible = false },
-
-        ) {
+        modifier = Modifier.height(50.dp),
+        offset = DpOffset(100.dp, 100.dp)
+    ) {
         DropdownMenuItem(
-            text = { Text(text = "Copy") },
+            text = { Text(text = "Copy", fontSize = 6.sp, fontWeight = FontWeight(400)) },
             onClick = { isContextMenuVisible = false },
+            modifier = Modifier.height(20.dp)
+        )
+        DropdownMenuItem(
+            text = { Text(text = "Delete", fontSize = 6.sp, fontWeight = FontWeight(400)) },
+            onClick = { isContextMenuVisible = false },
+            modifier = Modifier.height(20.dp)
         )
     }
 

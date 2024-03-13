@@ -1,4 +1,4 @@
-package com.example.testmobapp.presentation.newview
+package com.example.testmobapp.presentation.view
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -23,11 +23,11 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.testmobapp.R
 import com.example.testmobapp.presentation.model.PriorityTag
-import com.example.testmobapp.presentation.newview.references.DoneButton
-import com.example.testmobapp.presentation.newview.references.ManageBox
-import com.example.testmobapp.presentation.newview.references.TaskDescriptionTF
-import com.example.testmobapp.presentation.newview.references.TaskTitleTF
 import com.example.testmobapp.presentation.utils.showToast
+import com.example.testmobapp.presentation.view.references.DoneButton
+import com.example.testmobapp.presentation.view.references.ManageBox
+import com.example.testmobapp.presentation.view.references.TaskDescriptionTF
+import com.example.testmobapp.presentation.view.references.TaskTitleTF
 import java.time.LocalDate
 
 
@@ -133,7 +133,7 @@ fun BottomSheetScreen(
                 DoneButton(onClick = {
                     saveTask(titleState, descState, priorityTag)
                     clearFields()
-                    showToast(context)
+                    showToast(context, "Задача создана")
                 })
             }
         }

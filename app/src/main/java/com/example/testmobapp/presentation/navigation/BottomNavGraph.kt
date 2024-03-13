@@ -1,10 +1,10 @@
-package com.example.testmobapp.presentation.navigation.bottom
+package com.example.testmobapp.presentation.navigation
 
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import com.example.testmobapp.presentation.newview.TableScreen
+import com.example.testmobapp.presentation.view.TableScreen
 import com.example.testmobapp.presentation.view.TimerView
 
 @Composable

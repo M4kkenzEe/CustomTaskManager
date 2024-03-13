@@ -1,4 +1,4 @@
-package com.example.testmobapp.presentation.newview
+package com.example.testmobapp.presentation.view
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box

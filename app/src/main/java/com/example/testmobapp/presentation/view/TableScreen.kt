@@ -1,4 +1,4 @@
-package com.example.testmobapp.presentation.newview
+package com.example.testmobapp.presentation.view
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.BorderStroke
@@ -86,6 +86,13 @@ fun TableScreen(viewModel: TableViewModel = koinViewModel()) {
 
     val coroutineScope = rememberCoroutineScope()
 
+    val backToCurrentDateAction = remember {
+        {
+            viewModel.todayIsState.value = LocalDate.now()
+            coroutineScope.launch { pagerState.animateScrollToPage(totalPages / 2) }
+        }
+    }
+
     Surface(modifier = Modifier.background(Color.White)) {
         BottomSheetScreen(
             showBottomSheet = sheetState,
@@ -93,16 +100,15 @@ fun TableScreen(viewModel: TableViewModel = koinViewModel()) {
             saveTask = { title, desc, priorityTag -> viewModel.addTask(title, desc, priorityTag) }
         )
 
-        Column(modifier = Modifier
-            .fillMaxSize()
-            .background(Color.White)) {
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(Color.White)
+        ) {
             CalendarRow(
                 pagerState = pagerState,
                 totalPages = totalPages,
-                backToCurrentDateClick = {
-                    viewModel.todayIsState.value = LocalDate.now()
-                    coroutineScope.launch { pagerState.animateScrollToPage(totalPages / 2) }
-                }
+                backToCurrentDateClick = { backToCurrentDateAction() }
             )
             Row(
                 modifier = Modifier

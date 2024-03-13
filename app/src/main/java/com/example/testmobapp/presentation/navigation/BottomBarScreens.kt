@@ -1,4 +1,4 @@
-package com.example.testmobapp.presentation.navigation.bottom
+package com.example.testmobapp.presentation.navigation
 
 import com.example.testmobapp.R
 

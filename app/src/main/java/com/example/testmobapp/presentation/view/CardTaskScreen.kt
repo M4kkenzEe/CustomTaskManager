@@ -1,4 +1,4 @@
-package com.example.testmobapp.presentation.newview
+package com.example.testmobapp.presentation.view
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.ExperimentalFoundationApi
@@ -31,7 +31,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.testmobapp.data.model.TableTag
 import com.example.testmobapp.presentation.model.PriorityTag
-import com.example.testmobapp.presentation.newview.references.PriorityCircle
+import com.example.testmobapp.presentation.view.references.PriorityCircle
 import com.example.testmobapp.presentation.ui.theme.Gray80
 import com.example.testmobapp.presentation.ui.theme.GrayBorder
 import com.example.testmobapp.presentation.ui.theme.GrayF3

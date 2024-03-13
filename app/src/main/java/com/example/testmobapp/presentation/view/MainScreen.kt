@@ -6,16 +6,13 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
-import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Icon
+import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -56,10 +53,7 @@ fun BottomBar(navController: NavHostController) {
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentDestination = navBackStackEntry?.destination
 
-    val currentScreen = remember { mutableIntStateOf(0) }
-    val previousScreen = remember { mutableIntStateOf(0) }
-
-    BottomAppBar(
+    NavigationBar(
         containerColor = GrayE3,
         modifier = Modifier.height(52.dp)
     ) {
@@ -68,9 +62,6 @@ fun BottomBar(navController: NavHostController) {
                 screen = screen,
                 currentDestination = currentDestination,
                 navController = navController,
-                index = index,
-                currentScreen = currentScreen,
-                previousScreen = previousScreen
             )
         }
     }
@@ -82,9 +73,6 @@ fun RowScope.AddItem(
     screen: BottomBarScreens,
     currentDestination: NavDestination?,
     navController: NavHostController,
-    index: Int,
-    currentScreen: MutableState<Int>,
-    previousScreen: MutableState<Int>
 ) {
     val selected = currentDestination?.hierarchy?.any {
         it.route == screen.route
@@ -95,20 +83,15 @@ fun RowScope.AddItem(
     NavigationBarItem(
         selected = selected,
         onClick = {
-            if (currentScreen.value != index) {
-                currentScreen.value = index
-            } else {
-                if (previousScreen.value == index && index == 0) {
-                    showToast(context, "Вы уже на главном экране")
-                } else {
-                    previousScreen.value = index
+            if (!selected) {
+                navController.navigate(screen.route) {
+                    popUpTo(navController.graph.findStartDestination().id)
+                    launchSingleTop = true
                 }
+            } else if (currentDestination?.route == BottomBarScreens.TasksScreen.route) {
+                showToast(context, "Вы уже на главном экране")
             }
 
-            navController.navigate(screen.route) {
-                popUpTo(navController.graph.findStartDestination().id)
-                launchSingleTop = true
-            }
         }, icon = {
             Column(
                 modifier = Modifier.fillMaxSize(),

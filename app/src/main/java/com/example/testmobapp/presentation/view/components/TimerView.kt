@@ -1,4 +1,4 @@
-package com.example.testmobapp.presentation.view
+package com.example.testmobapp.presentation.view.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -17,11 +17,11 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.testmobapp.presentation.viewmodel.TimerViewModel
+import org.koin.androidx.compose.koinViewModel
 
 @Composable
-fun TimerView(vm: TimerViewModel = viewModel()) {
+fun TimerView(vm: TimerViewModel = koinViewModel()) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -72,7 +72,6 @@ fun TimerView(vm: TimerViewModel = viewModel()) {
             }
         }
     }
-
 }
 
 fun formatTime(seconds: Int): String {

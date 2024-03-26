@@ -100,4 +100,7 @@ dependencies {
 
     //Koin
     implementation("io.insert-koin:koin-androidx-compose:3.3.0")
+
+    //Swipe
+    implementation("io.github.kevinnzou:compose-swipebox:1.3.0")
 }

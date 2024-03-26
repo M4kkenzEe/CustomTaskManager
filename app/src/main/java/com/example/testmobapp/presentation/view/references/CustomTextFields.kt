@@ -7,6 +7,8 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
@@ -33,7 +35,11 @@ fun TaskTitleTF(
     value: String,
     onValueChange: (s: String) -> Unit = {},
     modifier: Modifier = Modifier,
-    textHint: String = "Название"
+    textHint: String = "Название",
+    textColor: Color = Color.Black,
+    cursorColor: Color = Color.Black,
+    keyboardActions: KeyboardActions = KeyboardActions(),
+    keyboardOptions: KeyboardOptions = KeyboardOptions()
 ) {
     OutlinedTextField(
         value = value,
@@ -42,7 +48,7 @@ fun TaskTitleTF(
         colors = TextFieldDefaults.outlinedTextFieldColors(
             focusedBorderColor = Color.Transparent,
             unfocusedBorderColor = Color.Transparent,
-            cursorColor = Color.Black,
+            cursorColor = cursorColor,
             focusedTextColor = Color.Black,
         ),
         placeholder = {
@@ -51,15 +57,18 @@ fun TaskTitleTF(
                 fontWeight = FontWeight.Bold,
                 fontSize = 14.sp,
                 color = Gray80,
-                lineHeight = 16.94.sp
+                lineHeight = 16.94.sp,
             )
         },
         textStyle = TextStyle(
             fontSize = 14.sp,
-            color = Color.Black,
+            color = textColor,
             fontWeight = FontWeight.Bold,
-            lineHeight = 16.94.sp
-        )
+            lineHeight = 16.94.sp,
+            letterSpacing = 1.2.sp
+        ),
+        keyboardActions = keyboardActions,
+        keyboardOptions = keyboardOptions
     )
 }
 
@@ -70,7 +79,9 @@ fun TaskDescriptionTF(
     value: String,
     onValueChange: (s: String) -> Unit = {},
     modifier: Modifier = Modifier,
-    textHint: String = "Описание"
+    textHint: String = "Описание",
+    textColor: Color = Color.Black,
+    cursorColor: Color = Color.Black
 ) {
 
     var offset by remember {
@@ -81,7 +92,6 @@ fun TaskDescriptionTF(
         value = value,
         onValueChange = onValueChange,
         modifier = modifier
-            .padding(4.dp)
             .scrollable(
                 orientation = Orientation.Vertical,
                 state = rememberScrollableState { delta ->
@@ -89,11 +99,10 @@ fun TaskDescriptionTF(
                     delta
                 }
             ),
-        maxLines = 40,
         colors = TextFieldDefaults.outlinedTextFieldColors(
             focusedBorderColor = Color.Black,
             unfocusedBorderColor = Color.Black,
-            cursorColor = Color.Black,
+            cursorColor = cursorColor,
             focusedTextColor = Color.Black,
         ),
 
@@ -108,9 +117,10 @@ fun TaskDescriptionTF(
         },
         textStyle = TextStyle(
             fontSize = 12.sp,
-            color = Color.Black,
+            color = textColor,
             fontWeight = FontWeight.Normal,
-            lineHeight = 16.94.sp
+            lineHeight = 16.94.sp,
+            letterSpacing = 1.2.sp
         ),
         shape = RoundedCornerShape(10.dp)
     )

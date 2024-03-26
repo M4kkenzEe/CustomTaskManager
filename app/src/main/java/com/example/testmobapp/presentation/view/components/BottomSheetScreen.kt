@@ -1,4 +1,4 @@
-package com.example.testmobapp.presentation.view
+package com.example.testmobapp.presentation.view.components
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -100,7 +100,6 @@ fun BottomSheetScreen(
                     )
                     ManageBox(icon = R.drawable.ic_sandtimer_white)
                     ManageBox(icon = R.drawable.ic_clock_white)
-//                    ManageBox(icon = R.drawable.ic_flag_white)
                     ManageBox(
                         icon = mapPriorityToInt(priorityTag),
                         onClick = {

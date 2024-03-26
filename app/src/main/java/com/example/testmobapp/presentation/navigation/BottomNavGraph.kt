@@ -4,8 +4,8 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import com.example.testmobapp.presentation.view.TableScreen
-import com.example.testmobapp.presentation.view.TimerView
+import com.example.testmobapp.presentation.view.components.TableScreen
+import com.example.testmobapp.presentation.view.components.TimerView
 
 @Composable
 fun BottomNavGraph(navController: NavHostController) {

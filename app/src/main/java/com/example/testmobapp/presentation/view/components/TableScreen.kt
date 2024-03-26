@@ -1,4 +1,4 @@
-package com.example.testmobapp.presentation.view
+package com.example.testmobapp.presentation.view.components
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.BorderStroke
@@ -242,18 +242,5 @@ fun TaskColumn(
 @Composable
 @Preview
 fun TableScreenPrev() {
-//    Row(
-//        modifier = Modifier
-//            .fillMaxSize()
-//            .padding(horizontal = 16.dp)
-//            .padding(top = 42.dp, bottom = 36.dp),
-//        horizontalArrangement = Arrangement.spacedBy(8.dp)
-//    ) {
-//        TaskColumn(modifier = Modifier.weight(1f))
-//        TaskColumn(modifier = Modifier.weight(1f), label = "В работе")
-//        TaskColumn(modifier = Modifier.weight(1f), label = "Завершенные")
-//    }
-
     TableScreen()
-
 }
